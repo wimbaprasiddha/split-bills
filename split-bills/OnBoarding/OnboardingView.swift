@@ -55,12 +55,17 @@ struct OnboardingView: View {
                     }
                 }) {
                     if self.currentPageIndex == 2 {
-                        ButtonLogin()
+                        Button(action: {
+                            UIApplication.switchRootViewController(UIHostingController(rootView: LoginScreen()))
+                            
+                        }) {
+                            ButtonLogin()
+                        }
                     }
                     else {
                         ButtonContent()
                     }
-                    }
+                }
             }
             .frame(width: 365, height:80)
         }

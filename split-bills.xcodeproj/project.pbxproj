@@ -19,6 +19,7 @@
 		13A833BE24C9F638002EFCFF /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A833BD24C9F638002EFCFF /* LoginScreen.swift */; };
 		13A833C524C9F805002EFCFF /* MotherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A833C424C9F805002EFCFF /* MotherView.swift */; };
 		13A833C724C9FBFB002EFCFF /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A833C624C9FBFB002EFCFF /* ViewRouter.swift */; };
+		BE51A13224CAD6300082B71C /* UIAplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE51A13124CAD6300082B71C /* UIAplication+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		13A833BD24C9F638002EFCFF /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
 		13A833C424C9F805002EFCFF /* MotherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotherView.swift; sourceTree = "<group>"; };
 		13A833C624C9FBFB002EFCFF /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
+		BE51A13124CAD6300082B71C /* UIAplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAplication+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 		13A8339F24C7F847002EFCFF /* split-bills */ = {
 			isa = PBXGroup;
 			children = (
+				BE51A13324CAD7940082B71C /* Extension */,
 				13A833A024C7F847002EFCFF /* AppDelegate.swift */,
 				13A833A224C7F847002EFCFF /* SceneDelegate.swift */,
 				13A833A624C7F849002EFCFF /* Assets.xcassets */,
@@ -99,6 +102,14 @@
 				13A833BA24C8D11F002EFCFF /* PageControl.swift */,
 			);
 			path = OnBoarding;
+			sourceTree = "<group>";
+		};
+		BE51A13324CAD7940082B71C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BE51A13124CAD6300082B71C /* UIAplication+extension.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +188,7 @@
 				13A833B924C8B6B5002EFCFF /* PageViewController.swift in Sources */,
 				13A833BB24C8D11F002EFCFF /* PageControl.swift in Sources */,
 				13A833B524C8B214002EFCFF /* Subview.swift in Sources */,
+				BE51A13224CAD6300082B71C /* UIAplication+extension.swift in Sources */,
 				13A833C524C9F805002EFCFF /* MotherView.swift in Sources */,
 				13A833BE24C9F638002EFCFF /* LoginScreen.swift in Sources */,
 				13A833A324C7F847002EFCFF /* SceneDelegate.swift in Sources */,
@@ -318,9 +330,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"split-bills/Preview Content\"";
-				DEVELOPMENT_TEAM = 2P68KNF88Y;
+				DEVELOPMENT_TEAM = YF2M6C4WM8;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "split-bills/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -338,9 +351,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"split-bills/Preview Content\"";
-				DEVELOPMENT_TEAM = 2P68KNF88Y;
+				DEVELOPMENT_TEAM = YF2M6C4WM8;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "split-bills/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
