@@ -17,7 +17,15 @@ struct HomePage: View {
     var body: some View {
         
         ZStack{
+            ZStack{
+                VStack{
+                    Spacer()
+                    .padding(.vertical)
+                      Image("Footer")
+                } .edgesIgnoringSafeArea(.vertical)
+                  
             VStack{
+               
                 HStack{
                     VStack {
                     Button(action: {self.open.toggle()}){
@@ -37,11 +45,19 @@ struct HomePage: View {
  
                 Search()
                 
+                Poliklinik()
+                    
+                
                 Spacer()
                 .padding(.vertical)
             }
+
             .edgesIgnoringSafeArea(.vertical)
             Menu(open: $open)
+            
+            
+
+            }
         }
 
     }
@@ -97,7 +113,7 @@ struct Menu: View {
         VStack{
             VStack{
                 ListMenu(active: false, icon: "person", text: "Profile")
-                ListMenu(active: false, icon: "gear", text: "Settings")
+                ListMenu(active: false, icon: "hourglass", text: "Antrian")
                 ListMenu(active: false, icon: "gear", text: "Settings")
                 
                 Spacer()
@@ -111,7 +127,6 @@ struct Menu: View {
             HStack{
                 Spacer()
             }
-            
             
             Spacer()
         }
@@ -148,11 +163,82 @@ struct ListMenu: View {
             
             Spacer()
         }
-    .padding(8)
+        .padding(8)
         .padding(.trailing, 20)
         
     }
 }
+
+struct Poliklinik: View {
+    var body: some View {
+        
+    VStack{
+        HStack{
+            Text("List Poliklinik")
+                .font(.headline)
+            
+            Spacer()
+            
+        }
+        .padding(.vertical, 20)
+        .padding(.horizontal, 30)
+        
+        HStack{
+            ListPoli(imagePoli: "gear", titlePoli: "Poli A")
+            
+            Spacer()
+            
+            ListPoli(imagePoli: "gear", titlePoli: "Poli B")
+            
+            Spacer()
+            
+            ListPoli(imagePoli: "gear", titlePoli: "Poli C")
+        }
+        .padding(.horizontal, 20)
+        
+        HStack{
+                ListPoli(imagePoli: "gear", titlePoli: "Poli A")
+                
+                Spacer()
+                
+                ListPoli(imagePoli: "gear", titlePoli: "Poli B")
+                
+                Spacer()
+                
+                ListPoli(imagePoli: "gear", titlePoli: "Poli C")
+            }
+        
+    .padding(20)
+    }
+    }
+}
+
+struct ListPoli: View {
+    
+    var imagePoli = "gear"
+    var titlePoli = "Settings"
+    
+    var body: some View {
+        HStack{
+//            Image(systemName: icon)
+//                .foregroundColor(active ? Color.init(#colorLiteral(red: 0.1176470588, green: 0.262745098, blue: 0.5137254902, alpha: 1)) : Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+//                .font(.system(size: 18, weight: active ? .bold : .regular))
+//                .frame(width: 48, height: 32)
+            
+          Text(titlePoli)
+            .foregroundColor(.black)
+            .frame(width: 80, height: 80)
+            .padding()
+            .background(Color.init(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+            .cornerRadius(15)
+            .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
+            
+            Spacer()
+        }
+        
+    }
+}
+
 
 
 
