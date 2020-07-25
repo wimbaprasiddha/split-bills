@@ -24,6 +24,10 @@ class ViewRouter: ObservableObject {
         
     }
     
+    func changeToHome(_ binder: Published<Bool>){
+        
+    }
+    
     
 }
 

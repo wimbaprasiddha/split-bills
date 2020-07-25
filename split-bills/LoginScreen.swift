@@ -7,28 +7,35 @@
 //
 
 import SwiftUI
+import Combine
+
+class LoginScreenFactory: ObservableObject{
+    
+    @EnvironmentObject var viewRouter: ViewRouter
+    
+    @Published var email = ""
+    @Published var pass = ""
+    @Published var pushToRegister: Bool = false
+    @Published var showAlert: Bool = false
+    var alertTitle: (String, String) = ("failed to login", "error login")
+    
+}
+
 
 struct LoginScreen: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
-    
-    @State var pushToRegister: Bool = false
-    @State var email = ""
-    @State var pass = ""
+    @ObservedObject var factory = LoginScreenFactory()
+    @State var isLoading: Bool = false
     
     let image = "Login"
     
-    
-    init() {
-       
-    }
-    
     var body: some View {
-                    
+        
         NavigationView {
             VStack {
                 
-                NavigationLink(destination: Text("register"), isActive: $pushToRegister) {
+                NavigationLink(destination: Text("register").environmentObject(viewRouter), isActive: $factory.pushToRegister) {
                     EmptyView()
                 }
                 
@@ -44,44 +51,86 @@ struct LoginScreen: View {
                     .font(.subheadline)
                 
                 
-                LoginForm(email: _email, pass: _pass)
-                   
+                LoginForm()
+                    .environmentObject(factory)
+                
                 
                 HStack{
                     Text("Belum punya akun?")
                     
                     Button(action: {
-                        self.pushToRegister.toggle()
+                        self.factory.pushToRegister.toggle()
                     }) {
                         Register()
                     }
                     
                 }
+                ZStack{
+                    
+                    Button(action: {
+                        self.loginConfirmation()
+                    }) {
+                        LogginButton()
+                    }
+                    .padding()
                 
-                Button(action: {
-                    self.viewRouter.initialPage = AnyView(Text("Home page"))
-                }) {
-                    LogginButton()
+                    ActivityIndicator(isAnimating: $isLoading, style: .large)
+                    
+
+                    
                 }
-                .padding()
                 
+            }
+        
+            
+        }.alert(isPresented: $factory.showAlert) { () -> Alert in
+            Alert(
+                title: Text(factory.alertTitle.0),
+                message: Text(factory.alertTitle.1),
+                dismissButton: .default(Text("OK")){
+                    self.factory.showAlert = false
+                })
+        }
+    }
+    
+    
+    private func loginConfirmation(){
+        isLoading = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.isLoading = false
+            if self.factory.email == "willa" && self.factory.pass == "qweasd12"{
+                self.viewRouter.initialPage = AnyView(HomePage().environmentObject(self.viewRouter))
+            }else{
+                self.factory.showAlert.toggle()
             }
         }
         
-      
-        
     }
+    
+    struct ActivityIndicator: UIViewRepresentable {
+        @Binding var isAnimating: Bool
+        let style: UIActivityIndicatorView.Style
+
+        func makeUIView(context: UIViewRepresentableContext<ActivityIndicator>) -> UIActivityIndicatorView {
+            let ai = UIActivityIndicatorView(style: style)
+            ai.color = .white
+            return ai
+        }
+
+        func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicator>) {
+            isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
+        }
+    }
+    
+    
+    
+  
     
     struct LoginForm: View {
         
-        @State var email = ""
-        @State var pass = ""
-        
-        init(email: State<String>, pass: State<String>) {
-            self._email = email
-            self._pass = pass
-        }
-        
+        @EnvironmentObject var factory: LoginScreenFactory
+    
         var body: some View {
             
             VStack{
@@ -90,7 +139,7 @@ struct LoginScreen: View {
                     Image(systemName: "envelope")
                         
                         .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
-                    TextField("Masukan Alamat Email", text: self.$email )
+                    TextField("Masukan Alamat Email", text: $factory.email )
                     
                 }
                 .padding(.vertical,20)
@@ -101,7 +150,7 @@ struct LoginScreen: View {
                         .resizable()
                         .frame(width: 15, height: 18)
                         .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
-                    SecureField("Masukan Password", text: self.$pass)
+                    SecureField("Masukan Password", text: $factory.pass)
                     
                     Button(action: {
                         
