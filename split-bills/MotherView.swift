@@ -14,11 +14,8 @@ struct MotherView: View {
     
     var body: some View {
         VStack {
-            if viewRouter.currentPage == "onboardingView" {
-                OnboardingView()
-            } else if viewRouter.currentPage == "loginScreen" {
-                LoginScreen()
-            }
+            viewRouter.initialPage
+                .environmentObject(viewRouter)
         }
     }
 }
