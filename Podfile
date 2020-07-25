@@ -7,6 +7,7 @@ target 'split-bills' do
 
 pod 'Firebase/Auth'
 pod 'IQKeyboardManager'
+pod 'Firebase/Analytics'
 
   # Pods for split-bills
 
