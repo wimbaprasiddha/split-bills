@@ -9,8 +9,10 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    
+    @EnvironmentObject var viewRouter: ViewRouter
     @State var currentPageIndex = 0
+    
+    var userDefault: UserDefaults = UserDefaults()
 
     
     var subviews = [
@@ -56,8 +58,7 @@ struct OnboardingView: View {
                 }) {
                     if self.currentPageIndex == 2 {
                         Button(action: {
-                            UIApplication.switchRootViewController(UIHostingController(rootView: LoginScreen()))
-                            
+                            self.moveToLoginPage()
                         }) {
                             ButtonLogin()
                         }
@@ -70,6 +71,11 @@ struct OnboardingView: View {
             .frame(width: 365, height:80)
         }
         
+    }
+    
+    private func moveToLoginPage(){
+        viewRouter.initialPage = AnyView(LoginScreen())
+        userDefault.setValue(true, forKey: UserDefaultKey.onLoginPage.rawValue)
     }
 }
 

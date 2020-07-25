@@ -10,15 +10,20 @@ import Foundation
 import SwiftUI
 
 class ViewRouter: ObservableObject {
-    @Published var currentPage: String
+    @Published var initialPage: AnyView
+
+    private var userDefault: UserDefaults  = UserDefaults()
     
     init() {
-        if !UserDefaults.standard.bool(forKey: "didLaunchBefore"){
-            UserDefaults.standard.set(true, forKey: "didLaunchBefore")
-            currentPage = "onboardingView"
-        } else {
-            currentPage = "loginScreen"
+        
+        if userDefault.bool(forKey: UserDefaultKey.onLoginPage.rawValue){
+            initialPage = AnyView(LoginScreen())
+        }else{
+            initialPage = AnyView(OnboardingView())
         }
         
     }
+    
+    
 }
+
