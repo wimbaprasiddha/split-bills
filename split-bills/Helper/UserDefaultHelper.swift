@@ -10,4 +10,5 @@ import Foundation
 
 enum UserDefaultKey: String{
     case onLoginPage = "onLoginPage"
+    case isUserLoggedIn = "useLoggedIn"
 }
