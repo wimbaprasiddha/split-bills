@@ -8,6 +8,7 @@
 
 import SwiftUI
 import Combine
+import FirebaseAuth
 
 class LoginScreenFactory: ObservableObject{
     
@@ -27,7 +28,7 @@ struct LoginScreen: View {
     @EnvironmentObject var viewRouter: ViewRouter
     @ObservedObject var factory = LoginScreenFactory()
     @State var isLoading: Bool = false
-    
+    private var userDefaults = UserDefaults.standard
     let image = "Login"
     
     var body: some View {
@@ -97,13 +98,20 @@ struct LoginScreen: View {
     private func loginConfirmation(){
         isLoading = true
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+        
+        Auth.auth().signIn(withEmail: factory.email, password: factory.pass) { (result, err) in
             self.isLoading = false
-            if self.factory.email == "willa" && self.factory.pass == "qweasd12"{
-                self.viewRouter.initialPage = AnyView(HomePage().environmentObject(self.viewRouter))
-            }else{
+            
+            if let err = err{
+                self.factory.alertTitle = ("failed to login", "\(err.localizedDescription)")
                 self.factory.showAlert.toggle()
+                return
             }
+            
+            
+            self.viewRouter.initialPage = AnyView(HomePage().environmentObject(self.viewRouter))
+            self.userDefaults.setValue(true, forKey: UserDefaultKey.isUserLoggedIn.rawValue)
+            
         }
         
     }
