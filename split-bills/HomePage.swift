@@ -13,36 +13,51 @@ struct HomePage: View {
     let image =  "Home"
    
     var body: some View {
-    
-        VStack{
-          
-            HStack(alignment: .top){
-                
-                    Button(action: {
-                //Type action here
-                    }) {
-                        ProfileButton()
-                        .foregroundColor(Color.init(#colorLiteral(red: 0.06666666667, green: 0.3019607843, blue: 0.5882352941, alpha: 1)))
-                        .frame(width: 100, height: 250, alignment: .leading)
+        
+        ZStack{
+            VStack{
+                HStack{
+                    
+                    Button(action: { }){
+                        Image(systemName: "line.horizontal.3")
+                            .imageScale(.large)
+                            .foregroundColor(.black)
                     }
-                
-                Spacer()
-                        Image(image)
-                            .resizable()
-                            .frame(width: 250, height: 250, alignment: .top)
+                    Spacer()
+                    .padding()
+                    
+                }
             }
-            
-            Greetings(nilai:0)
-                Search()
-                
-            Text("Poliklinik")
-                .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
-                .font(.headline)
-                .frame(width: 358, height: 40, alignment: .topLeading)
-                .padding(.vertical,10)
- 
         }
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height + 20, alignment: .topLeading)
+//        VStack{
+//
+//            HStack(alignment: .top){
+//
+//                    Button(action: {
+//                //Type action here
+//                    }) {
+//                        ProfileButton()
+//                        .foregroundColor(Color.init(#colorLiteral(red: 0.06666666667, green: 0.3019607843, blue: 0.5882352941, alpha: 1)))
+//                        .frame(width: 100, height: 250, alignment: .leading)
+//                    }
+//
+//                Spacer()
+//                        Image(image)
+//                            .resizable()
+//                            .frame(width: 250, height: 250, alignment: .top)
+//            }
+//
+//            Greetings(nilai:0)
+//                Search()
+//
+//            Text("Poliklinik")
+//                .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+//                .font(.headline)
+//                .frame(width: 358, height: 40, alignment: .topLeading)
+//                .padding(.vertical,10)
+//
+//        }
+//        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height + 20, alignment: .topLeading)
     }
 }
 
