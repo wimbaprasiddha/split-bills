@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130E291224CC0934005C578C /* SideBarMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130E291124CC0934005C578C /* SideBarMenu.swift */; };
+		1321A3A924CAEB180085210C /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1321A3A824CAEB180085210C /* HomePage.swift */; };
 		13A833A124C7F847002EFCFF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A833A024C7F847002EFCFF /* AppDelegate.swift */; };
 		13A833A324C7F847002EFCFF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A833A224C7F847002EFCFF /* SceneDelegate.swift */; };
 		13A833A724C7F849002EFCFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13A833A624C7F849002EFCFF /* Assets.xcassets */; };
@@ -24,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		130E291124CC0934005C578C /* SideBarMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarMenu.swift; sourceTree = "<group>"; };
+		1321A3A824CAEB180085210C /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 		13A8339D24C7F847002EFCFF /* split-bills.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "split-bills.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A833A024C7F847002EFCFF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13A833A224C7F847002EFCFF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +88,8 @@
 				13A833BD24C9F638002EFCFF /* LoginScreen.swift */,
 				13A833C424C9F805002EFCFF /* MotherView.swift */,
 				13A833C624C9FBFB002EFCFF /* ViewRouter.swift */,
+				1321A3A824CAEB180085210C /* HomePage.swift */,
+				130E291124CC0934005C578C /* SideBarMenu.swift */,
 			);
 			path = "split-bills";
 			sourceTree = "<group>";
@@ -195,11 +201,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				13A833C724C9FBFB002EFCFF /* ViewRouter.swift in Sources */,
+				1321A3A924CAEB180085210C /* HomePage.swift in Sources */,
 				13A833A124C7F847002EFCFF /* AppDelegate.swift in Sources */,
 				13A833B924C8B6B5002EFCFF /* PageViewController.swift in Sources */,
 				13A833BB24C8D11F002EFCFF /* PageControl.swift in Sources */,
 				13A833B524C8B214002EFCFF /* Subview.swift in Sources */,
 				BE51A13224CAD6300082B71C /* UIAplication+extension.swift in Sources */,
+				130E291224CC0934005C578C /* SideBarMenu.swift in Sources */,
 				13A833C524C9F805002EFCFF /* MotherView.swift in Sources */,
 				13A833BE24C9F638002EFCFF /* LoginScreen.swift in Sources */,
 				BE51A13624CAEC1B0082B71C /* UserDefaultHelper.swift in Sources */,
