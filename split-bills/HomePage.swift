@@ -103,6 +103,7 @@ struct HomePage_Previews: PreviewProvider {
     static var previews: some View {
         HomePage()
 //        Menu(open: .constant(true))
+//        DetailPoli(detail: .constant(true))
     }
 }
 
@@ -152,6 +153,7 @@ struct ListMenu: View {
     
     var body: some View {
         HStack{
+            Button(action: {}){
             Image(systemName: icon)
                 .foregroundColor(active ? Color.init(#colorLiteral(red: 0.1176470588, green: 0.262745098, blue: 0.5137254902, alpha: 1)) : Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
                 .font(.system(size: 18, weight: active ? .bold : .regular))
@@ -160,7 +162,7 @@ struct ListMenu: View {
             Text(text)
             .foregroundColor(active ? Color.init(#colorLiteral(red: 0.1176470588, green: 0.262745098, blue: 0.5137254902, alpha: 1)) : Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
             .font(.system(size: 18, weight: active ? .bold : .regular))
-            
+            }
             Spacer()
         }
         .padding(8)
@@ -170,6 +172,7 @@ struct ListMenu: View {
 }
 
 struct Poliklinik: View {
+    
     var body: some View {
         
     VStack{
@@ -193,6 +196,7 @@ struct Poliklinik: View {
             Spacer()
             
             ListPoli(imagePoli: "gear", titlePoli: "Poli C")
+
         }
         .padding(.horizontal, 20)
         
@@ -205,11 +209,13 @@ struct Poliklinik: View {
                 
                 Spacer()
                 
-                ListPoli(imagePoli: "gear", titlePoli: "Poli C")
+               
+                ListPoli(imagePoli: "gear", titlePoli: "Poli C", more: true)
             }
         
     .padding(20)
     }
+    
     }
 }
 
@@ -217,6 +223,8 @@ struct ListPoli: View {
     
     var imagePoli = "gear"
     var titlePoli = "Settings"
+    var more = false
+    @State var show = false
     
     var body: some View {
         HStack{
@@ -224,18 +232,83 @@ struct ListPoli: View {
 //                .foregroundColor(active ? Color.init(#colorLiteral(red: 0.1176470588, green: 0.262745098, blue: 0.5137254902, alpha: 1)) : Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
 //                .font(.system(size: 18, weight: active ? .bold : .regular))
 //                .frame(width: 48, height: 32)
+             
+                if more == true {
+                    Button(action: {self.show.toggle()}) {
+                    Text(titlePoli)
+                    .foregroundColor(.black)
+                    .frame(width: 80, height: 80)
+                    .padding()
+                    .background(Color.init(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                    .cornerRadius(15)
+                    .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
+                    }
+                    .sheet(isPresented: $show){
+                    DetailPoli(detail: .constant(true))
+                    }
+                }
+                else {
+                    Button(action: {}){
+                        Text(titlePoli)
+                        .foregroundColor(.black)
+                        .frame(width: 80, height: 80)
+                        .padding()
+                        .background(Color.init(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                        .cornerRadius(15)
+                        .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
+                    }
+                
+                
+            }
             
-          Text(titlePoli)
-            .foregroundColor(.black)
-            .frame(width: 80, height: 80)
-            .padding()
-            .background(Color.init(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-            .cornerRadius(15)
-            .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
+            
+          
             
             Spacer()
         }
         
+    }
+}
+
+struct DetailPoli: View {
+    @Binding var detail: Bool
+    var body: some View {
+        ScrollView (.vertical, showsIndicators: false) {
+        VStack{
+            Spacer()
+            .padding(.vertical)
+            HStack{
+                    ListPoli(imagePoli: "gear", titlePoli: "Poli A")
+                    
+                    Spacer()
+                    
+                    ListPoli(imagePoli: "gear", titlePoli: "Poli B")
+                    
+                    Spacer()
+                    
+                    ListPoli(imagePoli: "gear", titlePoli: "Poli C")
+                }
+                .padding(.horizontal, 20)
+                
+            HStack{
+                    ListPoli(imagePoli: "gear", titlePoli: "Poli A")
+                    
+                    Spacer()
+                    
+                    ListPoli(imagePoli: "gear", titlePoli: "Poli B")
+                    
+                    Spacer()
+                    
+                    ListPoli(imagePoli: "gear", titlePoli: "Poli C")
+                }
+                
+                
+            .padding(20)
+            
+       
+        }
+
+        }
     }
 }
 
