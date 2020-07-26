@@ -25,6 +25,8 @@
 		13A833C524C9F805002EFCFF /* MotherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A833C424C9F805002EFCFF /* MotherView.swift */; };
 		13A833C724C9FBFB002EFCFF /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A833C624C9FBFB002EFCFF /* ViewRouter.swift */; };
 		33602C5E68462E50B5F830FF /* Pods_split_bills.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0763C33F4053DEDB782210E /* Pods_split_bills.framework */; };
+		BE241F4524CDCBE2008CCFC7 /* ActifityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE241F4424CDCBE2008CCFC7 /* ActifityIndicatorView.swift */; };
+		BE241F4724CDFC20008CCFC7 /* Binding+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE241F4624CDFC20008CCFC7 /* Binding+Extension.swift */; };
 		BE51A13224CAD6300082B71C /* UIAplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE51A13124CAD6300082B71C /* UIAplication+extension.swift */; };
 		BE51A13624CAEC1B0082B71C /* UserDefaultHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE51A13524CAEC1B0082B71C /* UserDefaultHelper.swift */; };
 		BEC811DA24CC65CC00F132B6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEC811D924CC65CC00F132B6 /* GoogleService-Info.plist */; };
@@ -52,6 +54,8 @@
 		13A833C624C9FBFB002EFCFF /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
 		807874BEC6E65ECF4362E58B /* Pods-split-bills.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-split-bills.debug.xcconfig"; path = "Target Support Files/Pods-split-bills/Pods-split-bills.debug.xcconfig"; sourceTree = "<group>"; };
 		8C60B75B97A28F86CB770979 /* Pods-split-bills.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-split-bills.release.xcconfig"; path = "Target Support Files/Pods-split-bills/Pods-split-bills.release.xcconfig"; sourceTree = "<group>"; };
+		BE241F4424CDCBE2008CCFC7 /* ActifityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActifityIndicatorView.swift; sourceTree = "<group>"; };
+		BE241F4624CDFC20008CCFC7 /* Binding+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extension.swift"; sourceTree = "<group>"; };
 		BE51A13124CAD6300082B71C /* UIAplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAplication+extension.swift"; sourceTree = "<group>"; };
 		BE51A13524CAEC1B0082B71C /* UserDefaultHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultHelper.swift; sourceTree = "<group>"; };
 		BEC811D924CC65CC00F132B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -153,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				BE51A13124CAD6300082B71C /* UIAplication+extension.swift */,
+				BE241F4624CDFC20008CCFC7 /* Binding+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -161,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				BE51A13524CAEC1B0082B71C /* UserDefaultHelper.swift */,
+				BE241F4424CDCBE2008CCFC7 /* ActifityIndicatorView.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -286,6 +292,7 @@
 				13A833A124C7F847002EFCFF /* AppDelegate.swift in Sources */,
 				13A833B924C8B6B5002EFCFF /* PageViewController.swift in Sources */,
 				130E291A24CCDD44005C578C /* DoctorSchedule.swift in Sources */,
+				BE241F4524CDCBE2008CCFC7 /* ActifityIndicatorView.swift in Sources */,
 				13A833BB24C8D11F002EFCFF /* PageControl.swift in Sources */,
 				130E291C24CD7DFB005C578C /* Summary.swift in Sources */,
 				13A833B524C8B214002EFCFF /* Subview.swift in Sources */,
@@ -293,6 +300,7 @@
 				13A833C524C9F805002EFCFF /* MotherView.swift in Sources */,
 				13A833BE24C9F638002EFCFF /* LoginScreen.swift in Sources */,
 				BE51A13624CAEC1B0082B71C /* UserDefaultHelper.swift in Sources */,
+				BE241F4724CDFC20008CCFC7 /* Binding+Extension.swift in Sources */,
 				130E291824CC88FE005C578C /* RegisterData.swift in Sources */,
 				130E291624CC8016005C578C /* RegisterAccount.swift in Sources */,
 				13A833A324C7F847002EFCFF /* SceneDelegate.swift in Sources */,

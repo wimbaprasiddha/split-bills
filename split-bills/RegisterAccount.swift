@@ -7,9 +7,26 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+
+
+class RegisterAccountFactory: ObservableObject{
+    @Published var newEmail: String = ""
+    @Published var newPass: String = ""
+    @Published var rePass: String = ""
+}
+
 
 struct RegisterAccount: View {
+    @EnvironmentObject var viewRouter: ViewRouter
+    @ObservedObject var factory: RegisterAccountFactory = RegisterAccountFactory()
+    
+    @State var showAlert: Bool = false
+    @State var alert: Alert?
+    @State var isLoading: Bool = false
     let image = "Register"
+    
+    
     var body: some View {
         VStack{
           Image(image)
@@ -24,24 +41,91 @@ struct RegisterAccount: View {
                 .padding(.vertical, 5)
             
             AccountForm()
-            CreateAccountButton()
-                .padding(.vertical, 25)
+                .environmentObject(factory)
+            
+            ZStack{
+                
+                Button(action: {
+                    if let errMsg = self.passwordValidation(){
+                        self.showAlert(title: errMsg, subtitle: "")
+                    }else{
+                        self.createAccount()
+                    }
+                    
+                }) {
+                    CreateAccountButton()
+                        .padding(.vertical, 25)
+                }
+                
+                ActivityIndicator(isAnimating: $isLoading, style: .large)
+                
+            }
+            
+        }.alert(isPresented: $showAlert) { () -> Alert in
+            alert!
+        }
+    }
+    
+    
+    
+    
+    
+    private func createAccount(){
+        isLoading = true
+        Auth.auth().createUser(withEmail: factory.newEmail, password: factory.newPass, completion: { (result, err) in
+            self.isLoading = false
+            if let errMsg = err{
+                self.showAlert(title: "Gagal Buat Akun", subtitle: errMsg.localizedDescription)
+                return
+            }
+            
+            self.viewRouter.initialPage = AnyView(HomePage().environmentObject(self.viewRouter))
+            
+            
+        })
+    }
+    
+    private func passwordValidation() -> String?{
+        var errorMessage: String? = nil
+        
+        if factory.newPass != factory.rePass{
+            errorMessage = "Password harus sama!"
+        }else if factory.newPass.count < 8{
+            errorMessage = "Passoword minimal 8 karakter!"
         }
         
+        if let errMsg = errorMessage{
+            return errMsg
+        }
+        
+        return nil
     }
+    
+    private func showAlert(title: String, subtitle: String){
+        
+        self.alert = Alert(
+            title: Text(title),
+            message: Text(subtitle),
+            dismissButton: .default(Text("OK"), action: {
+            self.alert = nil
+            self.showAlert = false
+        }))
+        
+        self.showAlert = true
+    }
+    
+    
 }
 
 struct AccountForm: View {
-    @State var newEmail = ""
-    @State var newPass  = ""
-    @State var rePass = ""
+    @EnvironmentObject var factory: RegisterAccountFactory
     var body: some View {
         VStack{
                        
             HStack(spacing:15) {
                 Image(systemName: "envelope")
                     .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
-                    TextField("Masukan Alamat Email", text: $newEmail)
+                TextField("Masukan Alamat Email", text: $factory.newEmail)
             }
                 .padding(.vertical,20)
                 Divider()
@@ -51,7 +135,7 @@ struct AccountForm: View {
                     .resizable()
                     .frame(width: 15, height: 18)
                     .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
-                SecureField("Masukan Password", text: $newPass)
+                SecureField("Masukan Password", text: $factory.newPass)
                 
                 Button(action: {
                 }) {
@@ -68,7 +152,7 @@ struct AccountForm: View {
                     .resizable()
                     .frame(width: 15, height: 18)
                     .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
-                SecureField("Masukan Ulang Password", text: $newPass)
+                SecureField("Masukan Ulang Password", text: $factory.rePass)
                 
                 Button(action: {
                 }) {
