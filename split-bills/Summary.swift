@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct Summary: View {
+    @State var toggle = false
     var body: some View {
     ZStack{
         VStack{
@@ -22,7 +23,15 @@ struct Summary: View {
                 Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.16))
                 .frame(width: UIScreen.main.bounds.width, height: 10)
             }
-        summaryPatient(patientData: "Nama pasien")
+            summaryPatient(patientData: "Nama pasien", toggle: self.$toggle)
+            if toggle == true {
+                Text("Pastikan anda sudah memiliki surat rujukan")
+                    .font(.callout)
+                    .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
+                    .padding(.trailing, 26)
+                } else {
+                Text("")
+                }
             ZStack{
                 Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.16))
                 .frame(width: UIScreen.main.bounds.width, height: 10)
@@ -70,9 +79,7 @@ struct doctorDetail: View {
             }
         .padding(.trailing, 140)
         .frame(width: UIScreen.main.bounds.width, height: 90)
-        
-        
-        
+
     }
         
 }
@@ -123,6 +130,7 @@ var body: some View {
 
 struct summaryPatient: View {
     var patientData = ""
+    @Binding var toggle: Bool
     
     var body: some View {
         VStack{
@@ -140,8 +148,9 @@ struct summaryPatient: View {
                     .padding(.trailing, 20)
             }
                 .padding(.vertical,10)
+            
             Divider()
-                       
+            
             HStack(spacing: 15) {
                 Text("Apakah menggunakan BPJS?")
                     .font(.body)
@@ -149,16 +158,21 @@ struct summaryPatient: View {
                 
                 Spacer()
                 
-                Text("BPJS")
-                    .font(.body)
-                    .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
-                    .padding(.trailing, 20)
-            }
-                .padding(.vertical, 10)
+                Toggle(isOn: $toggle){
+                    //set data when toggle on
+                    Text("")
+                }
                 
+                .frame(width: 50)
+                .padding(.trailing, 22)
+               
+            }
+            .padding(.vertical, 10)
+
         }
-            
+        
         .padding(.leading,40)
+        
     }
 }
 
@@ -173,7 +187,6 @@ struct queueButton: View {
             .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 1)), radius: 8, x: 0, y: 6)
     }
 }
-
 
 struct Summary_Previews: PreviewProvider {
     static var previews: some View {
