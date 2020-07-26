@@ -9,15 +9,26 @@
 import SwiftUI
 
 struct DoctorSchedule: View {
+    @EnvironmentObject var viewRouter: ViewRouter
+
     var body: some View {
-        ZStack {
-            Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1621628853))
-            .edgesIgnoringSafeArea(.vertical)
-            ScrollView(.vertical, showsIndicators: true) {
-            VStack{
-            listDoctor(imageDoctor: "person", nameDoctor: "Dr. Ahmad", currentQueue: "20", schedule: "")
+        NavigationView{
+            ZStack {
+                Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1621628853))
+                    .edgesIgnoringSafeArea(.vertical)
+                ScrollView(.vertical, showsIndicators: true) {
+                    VStack{
+                        listDoctor(imageDoctor: "person", nameDoctor: "Dr. Ahmad", currentQueue: "20", schedule: "")
+                    }
+                }
+                
             }
+        }.onAppear {
+            self.viewRouter.isNavBarHidden = false
         }
+        .onDisappear {
+            self.viewRouter.navBarTitle = ""
+            self.viewRouter.isNavBarHidden = true
         }
     }
 }
@@ -82,6 +93,7 @@ struct listDoctor: View {
             .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1853799229)), radius: 8, x: 0, y: 0)
             
         }
+        
 }
 }
 

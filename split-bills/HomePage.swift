@@ -8,8 +8,26 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseFirestore
+
+
 
 struct HomePage: View {
+        
+    
+    init() {
+//        Firestore.firestore().collection("dokter").getDocuments { (snapshot, err) in
+//            if let err = err{
+//                print("\(err)")
+//                return
+//            }
+//
+//            snapshot?.documents.forEach({ (item) in
+//                print(item.data())
+//
+//            })
+//        }
+    }
     
     @EnvironmentObject var viewRouter: ViewRouter
     @State var open = false
@@ -19,56 +37,80 @@ struct HomePage: View {
     @State var isAntrianTapped: Bool = false
     @State var isSettingsTapped: Bool = false
     @State var isLoading = false
+    @State var isPolySelected = false
+    @State var polySelectedName: String = ""
+    
     
     let image =  "Home"
     private let userDefault = UserDefaults.standard
     var body: some View {
         
-        ZStack{
+        NavigationView{
+            
+            
             ZStack{
-                VStack{
-                    Spacer()
-                        .padding(.vertical)
-                    Image("Footer")
-                } .edgesIgnoringSafeArea(.vertical)
-                
-                VStack{
-                    
-                    HStack{
-                        VStack {
-                            Button(action: {self.open.toggle()}){
-                                Image(systemName: "line.horizontal.3")
-                                    .font(.system(size:28, weight: .bold))
-                                    .foregroundColor(Color.init(#colorLiteral(red: 0.1176470588, green: 0.262745098, blue: 0.5137254902, alpha: 1)))
-                                    .padding(.horizontal, 30)
-                            }
-                            .padding(.bottom)
-                            
-                        }
-                        Spacer()
-                        Image(image)
-                    }
-                    
-                    Greetings()
-                    
-                    Search()
-                    
-                    Poliklinik()
-                    
-                    
-                    Spacer()
-                        .padding(.vertical)
+
+                NavigationLink(destination: DoctorSchedule().environmentObject(viewRouter), isActive: $isPolySelected) {
+                    EmptyView()
                 }
-                .edgesIgnoringSafeArea(.vertical)
-                
                 ZStack{
-                    if open == true {
-                        ZStack {
-                            Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.6754334332))
-                                .blur(radius: 0)
-                                .animation(.default)
+                    VStack{
+                        Spacer()
+                            .padding(.vertical)
+                        Image("Footer")
+                    } .edgesIgnoringSafeArea(.vertical)
+                    
+                    VStack{
+                        
+                        HStack{
+                            VStack {
+                                Button(action: {self.open.toggle()}){
+                                    Image(systemName: "line.horizontal.3")
+                                        .font(.system(size:28, weight: .bold))
+                                        .foregroundColor(Color.init(#colorLiteral(red: 0.1176470588, green: 0.262745098, blue: 0.5137254902, alpha: 1)))
+                                        .padding(.horizontal, 30)
+                                }
+                                .padding(.bottom)
+                                
+                            }
+                            Spacer()
+                            Image(image)
                         }
+                        
+                        Greetings()
+                        
+                        Search()
+                        
+                        Poliklinik(selectedPoly: $polySelectedName.didSet(execute: { (value) in
+                            self.isPolySelected = true
+//                            self.viewRouter.navBarTitle = self.polySelectedName
+                        }))
+                        
+                        
+                        Spacer()
+                            .padding(.vertical)
                     }
+                    .edgesIgnoringSafeArea(.vertical)
+                    
+                    ZStack{
+                        if open == true {
+                            ZStack {
+                                Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.6754334332))
+                                    .blur(radius: 0)
+                                    .animation(.default)
+                            }
+                        }
+                        
+                        
+                    }.edgesIgnoringSafeArea(.vertical)
+                    
+                    Menu(open: $open,
+                         isLoggoutTapped: $isLoggoutTapped.didSet(execute: {(_) in
+                            self.userLogout()
+                         }),
+                         isProfileTapped: $isProfileTapped,
+                         isAntrianTapped: $isAntrianTapped,
+                        isSettingsTapped: $isSettingsTapped)
                     
                     if isLoggoutTapped{
                         ZStack {
@@ -78,18 +120,17 @@ struct HomePage: View {
                             ActivityIndicator(isAnimating: $isLoggoutTapped, style: .large)
                         }
                     }
-                }.edgesIgnoringSafeArea(.vertical)
-                
-                Menu(open: $open,
-                     isLoggoutTapped: $isLoggoutTapped.didSet(execute: {(_) in
-                        self.userLogout()
-                     }),
-                     isProfileTapped: $isProfileTapped,
-                     isAntrianTapped: $isAntrianTapped,
-                     isSettingsTapped: $isSettingsTapped)
-              
+                }
             }
+            .navigationBarTitle("\(viewRouter.navBarTitle)", displayMode: .inline)
+            .navigationBarHidden(viewRouter.isNavBarHidden)
+            
+        }.onAppear {
+            self.viewRouter.navBarTitle = ""
+            self.viewRouter.isNavBarHidden = true
         }
+        
+    
     }
     
     
@@ -238,7 +279,7 @@ struct HomePage: View {
     }
     
     struct Poliklinik: View {
-        
+        @Binding var selectedPoly: String
         var body: some View {
             
             VStack{
@@ -253,30 +294,30 @@ struct HomePage: View {
                 .padding(.horizontal, 30)
                 
                 HStack{
-                    ListPoli(imagePoli: "gear", titlePoli: "Poli A")
+                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli A")
                     
                     Spacer()
                     
-                    ListPoli(imagePoli: "gear", titlePoli: "Poli B")
+                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli B")
                     
                     Spacer()
                     
-                    ListPoli(imagePoli: "gear", titlePoli: "Poli C")
+                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli C")
                     
                 }
                 .padding(.horizontal, 20)
                 
                 HStack{
-                    ListPoli(imagePoli: "gear", titlePoli: "Poli A")
+                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli A")
                     
                     Spacer()
                     
-                    ListPoli(imagePoli: "gear", titlePoli: "Poli B")
+                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli B")
                     
                     Spacer()
                     
                     
-                    ListPoli(imagePoli: "gear", titlePoli: "Poli C", more: true)
+                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli C", more: true)
                 }
                     
                 .padding(20)
@@ -286,7 +327,7 @@ struct HomePage: View {
     }
     
     struct ListPoli: View {
-        
+        @Binding var selectedPoly: String
         var imagePoli = "gear"
         var titlePoli = "Settings"
         var more = false
@@ -310,11 +351,13 @@ struct HomePage: View {
                             .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
                     }
                     .sheet(isPresented: $show){
-                        DetailPoli(detail: .constant(true))
+                        DetailPoli(selectedPoly: self.$selectedPoly, detail: .constant(true))
                     }
                 }
                 else {
-                    Button(action: {}){
+                    Button(action: {
+                        self.selectedPoly = self.titlePoli
+                    }){
                         Text(titlePoli)
                             .foregroundColor(.black)
                             .frame(width: 80, height: 80)
@@ -331,6 +374,7 @@ struct HomePage: View {
     }
     
     struct DetailPoli: View {
+        @Binding var selectedPoly: String
         @Binding var detail: Bool
         var body: some View {
             ScrollView (.vertical, showsIndicators: false) {
@@ -338,28 +382,28 @@ struct HomePage: View {
                     Spacer()
                         .padding(.vertical)
                     HStack{
-                        ListPoli(imagePoli: "gear", titlePoli: "Poli A")
+                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli A")
                         
                         Spacer()
                         
-                        ListPoli(imagePoli: "gear", titlePoli: "Poli B")
+                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli B")
                         
                         Spacer()
                         
-                        ListPoli(imagePoli: "gear", titlePoli: "Poli C")
+                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli C")
                     }
                     .padding(.horizontal, 20)
                     
                     HStack{
-                        ListPoli(imagePoli: "gear", titlePoli: "Poli A")
+                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli A")
                         
                         Spacer()
                         
-                        ListPoli(imagePoli: "gear", titlePoli: "Poli B")
+                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli B")
                         
                         Spacer()
                         
-                        ListPoli(imagePoli: "gear", titlePoli: "Poli C")
+                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli C")
                     }
                         
                         

@@ -11,6 +11,7 @@ pod 'Firebase'
 pod 'Firebase/Auth'
 pod 'Firebase/Analytics'
 pod 'Firebase/Database'
+pod 'Firebase/Firestore'
 
 
   # Pods for split-bills

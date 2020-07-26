@@ -27,6 +27,7 @@
 		33602C5E68462E50B5F830FF /* Pods_split_bills.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0763C33F4053DEDB782210E /* Pods_split_bills.framework */; };
 		BE241F4524CDCBE2008CCFC7 /* ActifityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE241F4424CDCBE2008CCFC7 /* ActifityIndicatorView.swift */; };
 		BE241F4724CDFC20008CCFC7 /* Binding+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE241F4624CDFC20008CCFC7 /* Binding+Extension.swift */; };
+		BE241F4924CE02F6008CCFC7 /* NSNotification+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE241F4824CE02F6008CCFC7 /* NSNotification+Extension.swift */; };
 		BE51A13224CAD6300082B71C /* UIAplication+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE51A13124CAD6300082B71C /* UIAplication+extension.swift */; };
 		BE51A13624CAEC1B0082B71C /* UserDefaultHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE51A13524CAEC1B0082B71C /* UserDefaultHelper.swift */; };
 		BEC811DA24CC65CC00F132B6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEC811D924CC65CC00F132B6 /* GoogleService-Info.plist */; };
@@ -56,6 +57,7 @@
 		8C60B75B97A28F86CB770979 /* Pods-split-bills.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-split-bills.release.xcconfig"; path = "Target Support Files/Pods-split-bills/Pods-split-bills.release.xcconfig"; sourceTree = "<group>"; };
 		BE241F4424CDCBE2008CCFC7 /* ActifityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActifityIndicatorView.swift; sourceTree = "<group>"; };
 		BE241F4624CDFC20008CCFC7 /* Binding+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extension.swift"; sourceTree = "<group>"; };
+		BE241F4824CE02F6008CCFC7 /* NSNotification+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification+Extension.swift"; sourceTree = "<group>"; };
 		BE51A13124CAD6300082B71C /* UIAplication+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAplication+extension.swift"; sourceTree = "<group>"; };
 		BE51A13524CAEC1B0082B71C /* UserDefaultHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultHelper.swift; sourceTree = "<group>"; };
 		BEC811D924CC65CC00F132B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -158,6 +160,7 @@
 			children = (
 				BE51A13124CAD6300082B71C /* UIAplication+extension.swift */,
 				BE241F4624CDFC20008CCFC7 /* Binding+Extension.swift */,
+				BE241F4824CE02F6008CCFC7 /* NSNotification+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				BE241F4724CDFC20008CCFC7 /* Binding+Extension.swift in Sources */,
 				130E291824CC88FE005C578C /* RegisterData.swift in Sources */,
 				130E291624CC8016005C578C /* RegisterAccount.swift in Sources */,
+				BE241F4924CE02F6008CCFC7 /* NSNotification+Extension.swift in Sources */,
 				13A833A324C7F847002EFCFF /* SceneDelegate.swift in Sources */,
 				13A833B724C8B519002EFCFF /* OnboardingView.swift in Sources */,
 			);
