@@ -76,9 +76,7 @@ struct LoginScreen: View {
                     .padding()
                 
                     ActivityIndicator(isAnimating: $isLoading, style: .large)
-                    
 
-                    
                 }
                 
             }
