@@ -40,7 +40,7 @@ struct AccountForm: View {
                        
             HStack(spacing:15) {
                 Image(systemName: "envelope")
-                    .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+                    .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
                     TextField("Masukan Alamat Email", text: $newEmail)
             }
                 .padding(.vertical,20)
@@ -50,13 +50,13 @@ struct AccountForm: View {
                 Image(systemName: "lock")
                     .resizable()
                     .frame(width: 15, height: 18)
-                    .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+                    .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
                 SecureField("Masukan Password", text: $newPass)
                 
                 Button(action: {
                 }) {
                     Image(systemName: "eye")
-                        .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+                        .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
                     }
                 .padding()
             }
@@ -67,13 +67,13 @@ struct AccountForm: View {
                 Image(systemName: "lock")
                     .resizable()
                     .frame(width: 15, height: 18)
-                    .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+                    .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
                 SecureField("Masukan Ulang Password", text: $newPass)
                 
                 Button(action: {
                 }) {
                     Image(systemName: "eye")
-                        .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+                        .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
                     }
                     .padding()
             }

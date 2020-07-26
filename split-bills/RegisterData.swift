@@ -40,7 +40,7 @@ struct RegisterData: View {
             VStack{
                            
                 HStack(spacing:15) {
-                    Image(systemName: "envelope")
+                    Image(systemName: "person")
                         .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
                     TextField("Tuliskan Nama Kamu", text: $newName)
                 }
@@ -48,9 +48,9 @@ struct RegisterData: View {
                     Divider()
                            
                 HStack(spacing: 15) {
-                    Image(systemName: "lock")
-                        .resizable()
-                        .frame(width: 15, height: 18)
+                    Image(systemName: "calendar")
+//                        .resizable()
+//                        .frame(width: 15, height: 18)
                         .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
                     SecureField("Pilih Tanggal Lahir", text: $newBOD)
                     
@@ -60,9 +60,8 @@ struct RegisterData: View {
                     Divider()
                 
                 HStack(spacing: 15) {
-                    Image(systemName: "lock")
-                        .resizable()
-                        .frame(width: 15, height: 18)
+                    Image(systemName: "person")
+                    
                         .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
                    
                     SecureField("Pilih Jenis Kelamin", text: $newGender)
