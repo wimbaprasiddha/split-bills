@@ -24,7 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Use a UIHostingController as window root view controller.
         
-//        FirebaseApp.configure()
         FirebaseApp.configure()
         
         if let windowScene = scene as? UIWindowScene {

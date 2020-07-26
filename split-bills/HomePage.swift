@@ -51,12 +51,19 @@ struct HomePage: View {
                 Spacer()
                 .padding(.vertical)
             }
-
             .edgesIgnoringSafeArea(.vertical)
+                
+            ZStack{
+                    if open == true {
+                        ZStack {
+                            Color(#colorLiteral(red: 0, green: 0, blue: 0, alpha: 0.6754334332))
+                            .blur(radius: 0)
+                            .animation(.default)
+                        }
+                    }
+                } .edgesIgnoringSafeArea(.vertical)
             Menu(open: $open)
-            
-            
-
+                
             }
         }
 
@@ -118,9 +125,9 @@ struct Menu: View {
                 ListMenu(active: false, icon: "gear", text: "Settings")
                 
                 Spacer()
-                
+              
                 ListMenu(active: false, icon: "escape", text: "Log Out")
-                
+                    .padding(.vertical,20)
                 
             }
             .padding(.top, 30)
@@ -134,7 +141,6 @@ struct Menu: View {
         .padding(.vertical,2)
         .background(Color.init(.white))
         .cornerRadius(30)
-        .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 1)), radius: 8, x: 0, y: 6)
         .padding(.trailing, 90)
         .offset(x: open ? 0 : -UIScreen.main.bounds.width )
         .rotation3DEffect(Angle(degrees: open ? 0 : 45), axis: (x: 0 , y: 20, z: 0))
@@ -256,14 +262,8 @@ struct ListPoli: View {
                         .background(Color.init(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
                         .cornerRadius(15)
                         .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
-                    }
-                
-                
+                    } 
             }
-            
-            
-          
-            
             Spacer()
         }
         

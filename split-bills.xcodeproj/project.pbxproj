@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		130E291624CC8016005C578C /* RegisterAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130E291524CC8016005C578C /* RegisterAccount.swift */; };
+		130E291824CC88FE005C578C /* RegisterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130E291724CC88FE005C578C /* RegisterData.swift */; };
+		130E291A24CCDD44005C578C /* DoctorSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130E291924CCDD44005C578C /* DoctorSchedule.swift */; };
+		130E291C24CD7DFB005C578C /* Summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 130E291B24CD7DFB005C578C /* Summary.swift */; };
 		1321A3A924CAEB180085210C /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1321A3A824CAEB180085210C /* HomePage.swift */; };
 		13A833A124C7F847002EFCFF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A833A024C7F847002EFCFF /* AppDelegate.swift */; };
 		13A833A324C7F847002EFCFF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13A833A224C7F847002EFCFF /* SceneDelegate.swift */; };
@@ -27,6 +31,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		130E291524CC8016005C578C /* RegisterAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterAccount.swift; sourceTree = "<group>"; };
+		130E291724CC88FE005C578C /* RegisterData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterData.swift; sourceTree = "<group>"; };
+		130E291924CCDD44005C578C /* DoctorSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoctorSchedule.swift; sourceTree = "<group>"; };
+		130E291B24CD7DFB005C578C /* Summary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Summary.swift; sourceTree = "<group>"; };
 		1321A3A824CAEB180085210C /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
 		13A8339D24C7F847002EFCFF /* split-bills.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "split-bills.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13A833A024C7F847002EFCFF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -97,6 +105,10 @@
 				13A833C424C9F805002EFCFF /* MotherView.swift */,
 				13A833C624C9FBFB002EFCFF /* ViewRouter.swift */,
 				1321A3A824CAEB180085210C /* HomePage.swift */,
+				130E291524CC8016005C578C /* RegisterAccount.swift */,
+				130E291724CC88FE005C578C /* RegisterData.swift */,
+				130E291924CCDD44005C578C /* DoctorSchedule.swift */,
+				130E291B24CD7DFB005C578C /* Summary.swift */,
 			);
 			path = "split-bills";
 			sourceTree = "<group>";
@@ -273,12 +285,16 @@
 				1321A3A924CAEB180085210C /* HomePage.swift in Sources */,
 				13A833A124C7F847002EFCFF /* AppDelegate.swift in Sources */,
 				13A833B924C8B6B5002EFCFF /* PageViewController.swift in Sources */,
+				130E291A24CCDD44005C578C /* DoctorSchedule.swift in Sources */,
 				13A833BB24C8D11F002EFCFF /* PageControl.swift in Sources */,
+				130E291C24CD7DFB005C578C /* Summary.swift in Sources */,
 				13A833B524C8B214002EFCFF /* Subview.swift in Sources */,
 				BE51A13224CAD6300082B71C /* UIAplication+extension.swift in Sources */,
 				13A833C524C9F805002EFCFF /* MotherView.swift in Sources */,
 				13A833BE24C9F638002EFCFF /* LoginScreen.swift in Sources */,
 				BE51A13624CAEC1B0082B71C /* UserDefaultHelper.swift in Sources */,
+				130E291824CC88FE005C578C /* RegisterData.swift in Sources */,
+				130E291624CC8016005C578C /* RegisterAccount.swift in Sources */,
 				13A833A324C7F847002EFCFF /* SceneDelegate.swift in Sources */,
 				13A833B724C8B519002EFCFF /* OnboardingView.swift in Sources */,
 			);
