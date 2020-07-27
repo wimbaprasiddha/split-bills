@@ -13,9 +13,11 @@ struct DoctorSchedule: View {
         ZStack {
             Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1621628853))
             .edgesIgnoringSafeArea(.vertical)
-            ScrollView(.vertical, showsIndicators: true) {
+            ScrollView(.vertical, showsIndicators: false) {
             VStack{
+                ForEach(0..<25,id: \.self){ _ in
             listDoctor(imageDoctor: "person", nameDoctor: "Dr. Ahmad", currentQueue: "20", schedule: "")
+            }
             }
         }
         }
