@@ -11,8 +11,6 @@ import SwiftUI
 
 class ViewRouter: ObservableObject {
     @Published var initialPage: AnyView
-    @Published var isNavBarHidden: Bool = true
-    @Published var navBarTitle: String = ""
     private var userDefault: UserDefaults  = UserDefaults.standard
     
     init() {

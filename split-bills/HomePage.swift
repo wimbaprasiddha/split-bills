@@ -8,25 +8,11 @@
 
 import SwiftUI
 import FirebaseAuth
-import FirebaseFirestore
-
-
 
 struct HomePage: View {
-        
+    
     
     init() {
-//        Firestore.firestore().collection("dokter").getDocuments { (snapshot, err) in
-//            if let err = err{
-//                print("\(err)")
-//                return
-//            }
-//
-//            snapshot?.documents.forEach({ (item) in
-//                print(item.data())
-//
-//            })
-//        }
     }
     
     @EnvironmentObject var viewRouter: ViewRouter
@@ -38,21 +24,36 @@ struct HomePage: View {
     @State var isSettingsTapped: Bool = false
     @State var isLoading = false
     @State var isPolySelected = false
-    @State var polySelectedName: String = ""
-    
+    @State var polySelected: PolyModel = PolyModel(name: "", image: "", id: 0)
+    @State var navBarIsHidden: Bool = true
     
     let image =  "Home"
     private let userDefault = UserDefaults.standard
+    private let polies = [
+        PolyModel(name: "Poly A", image: "gear", id: 0),
+        PolyModel(name: "Poly B", image: "gear", id: 1),
+        PolyModel(name: "Poly C", image: "gear", id: 2),
+        PolyModel(name: "Poly D", image: "gear", id: 3),
+        PolyModel(name: "Poly E", image: "gear", id: 4),
+        PolyModel(name: "Poly F", image: "gear", id: 5),
+        PolyModel(name: "Poly G", image: "gear", id: 6),
+        PolyModel(name: "Poly H", image: "gear", id: 7),
+        PolyModel(name: "Poly I", image: "gear", id: 8),
+        PolyModel(name: "Poly J", image: "gear", id: 9),
+        PolyModel(name: "Poly K", image: "gear", id: 10)
+    ]
+    
     var body: some View {
         
         NavigationView{
             
             
             ZStack{
-
-                NavigationLink(destination: DoctorSchedule().environmentObject(viewRouter), isActive: $isPolySelected) {
+                
+                NavigationLink(destination: DoctorSchedule(poly: polySelected), isActive: $isPolySelected) {
                     EmptyView()
                 }
+                
                 ZStack{
                     VStack{
                         Spacer()
@@ -81,10 +82,10 @@ struct HomePage: View {
                         
                         Search()
                         
-                        Poliklinik(selectedPoly: $polySelectedName.didSet(execute: { (value) in
+                        Poliklinik(selectedPoly: $polySelected.didSet(execute: { (value) in
+                            self.navBarIsHidden = false
                             self.isPolySelected = true
-//                            self.viewRouter.navBarTitle = self.polySelectedName
-                        }))
+                        }), polies: polies)
                         
                         
                         Spacer()
@@ -110,7 +111,7 @@ struct HomePage: View {
                          }),
                          isProfileTapped: $isProfileTapped,
                          isAntrianTapped: $isAntrianTapped,
-                        isSettingsTapped: $isSettingsTapped)
+                         isSettingsTapped: $isSettingsTapped)
                     
                     if isLoggoutTapped{
                         ZStack {
@@ -122,15 +123,15 @@ struct HomePage: View {
                     }
                 }
             }
-            .navigationBarTitle("\(viewRouter.navBarTitle)", displayMode: .inline)
-            .navigationBarHidden(viewRouter.isNavBarHidden)
-            
-        }.onAppear {
-            self.viewRouter.navBarTitle = ""
-            self.viewRouter.isNavBarHidden = true
-        }
-        
-    
+            .navigationBarHidden(navBarIsHidden)
+            .navigationBarTitle(Text(""))
+            .onDisappear {
+                self.navBarIsHidden = false
+            }
+            .onAppear {
+                self.navBarIsHidden = true
+            }
+        }.environmentObject(viewRouter)
     }
     
     
@@ -279,7 +280,9 @@ struct HomePage: View {
     }
     
     struct Poliklinik: View {
-        @Binding var selectedPoly: String
+        @Binding var selectedPoly: PolyModel
+        
+        var polies: [PolyModel]
         var body: some View {
             
             VStack{
@@ -293,31 +296,40 @@ struct HomePage: View {
                 .padding(.vertical, 20)
                 .padding(.horizontal, 30)
                 
+                
                 HStack{
-                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli A")
-                    
-                    Spacer()
-                    
-                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli B")
-                    
-                    Spacer()
-                    
-                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli C")
+                    ForEach(Range(0...2)) { index in
+                        ListPoli(
+                            selectedPoly: self.$selectedPoly,
+                            imagePoli: self.polies[index].image,
+                            titlePoli: self.polies[index].name,
+                            poly: self.polies[index]
+                        )
+                        Spacer()
+                    }
                     
                 }
                 .padding(.horizontal, 20)
                 
                 HStack{
-                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli A")
                     
-                    Spacer()
-                    
-                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli B")
-                    
-                    Spacer()
-                    
-                    
-                    ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli C", more: true)
+                    ForEach(Range(3...5)) { index in
+                        if index == 5{
+                            ListPoli(
+                                selectedPoly: self.$selectedPoly,
+                                imagePoli: self.polies[index].image,
+                                titlePoli: self.polies[index].name,
+                                poly: self.polies[index],
+                                more: Array(self.polies[6..<self.polies.count]))
+                        }else{
+                            ListPoli(
+                                selectedPoly: self.$selectedPoly,
+                                imagePoli: self.polies[index].image,
+                                titlePoli: self.polies[index].name,
+                                poly: self.polies[index]
+                            )
+                        }
+                    }
                 }
                     
                 .padding(20)
@@ -327,20 +339,16 @@ struct HomePage: View {
     }
     
     struct ListPoli: View {
-        @Binding var selectedPoly: String
+        @Binding var selectedPoly: PolyModel
         var imagePoli = "gear"
         var titlePoli = "Settings"
-        var more = false
+        var poly: PolyModel
+        var more = [PolyModel]()
         @State var show = false
         
         var body: some View {
             HStack{
-                //            Image(systemName: icon)
-                //                .foregroundColor(active ? Color.init(#colorLiteral(red: 0.1176470588, green: 0.262745098, blue: 0.5137254902, alpha: 1)) : Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
-                //                .font(.system(size: 18, weight: active ? .bold : .regular))
-                //                .frame(width: 48, height: 32)
-                
-                if more == true {
+                if more.isEmpty == false {
                     Button(action: {self.show.toggle()}) {
                         Text(titlePoli)
                             .foregroundColor(.black)
@@ -351,12 +359,18 @@ struct HomePage: View {
                             .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
                     }
                     .sheet(isPresented: $show){
-                        DetailPoli(selectedPoly: self.$selectedPoly, detail: .constant(true))
+                        DetailPoli(
+                            selectedPoly: self.$selectedPoly.didSet(execute: { (_) in
+                                self.show.toggle()
+                            }),
+                            detail: .constant(true),
+                            polyReadyToDisplay: self.more.chunked(into: 3)
+                        )
                     }
                 }
                 else {
                     Button(action: {
-                        self.selectedPoly = self.titlePoli
+                        self.selectedPoly = self.poly
                     }){
                         Text(titlePoli)
                             .foregroundColor(.black)
@@ -374,52 +388,51 @@ struct HomePage: View {
     }
     
     struct DetailPoli: View {
-        @Binding var selectedPoly: String
+        
+        
+        @Binding var selectedPoly: PolyModel
         @Binding var detail: Bool
+        
+        var polyReadyToDisplay: [[PolyModel]]
+        
+        
+        
         var body: some View {
             ScrollView (.vertical, showsIndicators: false) {
                 VStack{
                     Spacer()
                         .padding(.vertical)
-                    HStack{
-                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli A")
-                        
-                        Spacer()
-                        
-                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli B")
-                        
-                        Spacer()
-                        
-                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli C")
-                    }
-                    .padding(.horizontal, 20)
                     
-                    HStack{
-                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli A")
+                    ForEach(polyReadyToDisplay.indices) { index in
+                        HStack(alignment: .center){
+                            ForEach(self.polyReadyToDisplay[index].indices) { index2 in
+                                ListPoli(
+                                    selectedPoly: self.$selectedPoly,
+                                    imagePoli: self.polyReadyToDisplay[index][index2].image,
+                                    titlePoli: self.polyReadyToDisplay[index][index2].name,
+                                    poly: self.polyReadyToDisplay[index][index2]
+                                )
+                                Spacer()
+                            }
+                            
+                            if self.polyReadyToDisplay[index].count < 3{
+                                Text("")
+                                    .frame(width: 80, height: 80)
+                                    .padding()
+                                Spacer()
+                            }
+                            
+                            
+                            
+                        }.padding(.horizontal, 20)
                         
-                        Spacer()
-                        
-                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli B")
-                        
-                        Spacer()
-                        
-                        ListPoli(selectedPoly: $selectedPoly, imagePoli: "gear", titlePoli: "Poli C")
-                    }
-                        
-                        
-                    .padding(20)
-                    
+                    }.padding(.bottom, 20)
                     
                 }
                 
             }
         }
     }
-    
-    
-    
-    
-    
 }
 
 
