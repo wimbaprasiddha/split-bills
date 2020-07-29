@@ -23,7 +23,7 @@ struct Summary: View {
                 Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.16))
                 .frame(width: UIScreen.main.bounds.width, height: 10)
             }
-            summaryPatient(patientData: "Nama pasien", toggle: self.$toggle)
+        summaryPatient(patientData: "Samantha", toggle: self.$toggle)
             if toggle == true {
                 Text("Pastikan anda sudah memiliki surat rujukan")
                     .font(.callout)
@@ -40,7 +40,7 @@ struct Summary: View {
         Spacer()
         .padding(.vertical)
             
-        queueButton()
+        ambilAntrian()
             .padding(.vertical, 25)
         }
         
@@ -148,11 +148,11 @@ struct summaryPatient: View {
                     .padding(.trailing, 20)
             }
                 .padding(.vertical,10)
-            
             Divider()
             
+         
             HStack(spacing: 15) {
-                Text("Apakah menggunakan BPJS?")
+                Text("Anda ingin menggunakan BPJS?")
                     .font(.body)
                     .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
                 
@@ -176,7 +176,7 @@ struct summaryPatient: View {
     }
 }
 
-struct queueButton: View {
+struct ambilAntrian: View {
     var body: some View {
         Text("Ambil Antrian")
             .foregroundColor(.white)
@@ -187,6 +187,7 @@ struct queueButton: View {
             .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 1)), radius: 8, x: 0, y: 6)
     }
 }
+
 
 struct Summary_Previews: PreviewProvider {
     static var previews: some View {
