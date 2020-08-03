@@ -11,7 +11,6 @@ import SwiftUI
 
 class ViewRouter: ObservableObject {
     @Published var initialPage: AnyView
-
     private var userDefault: UserDefaults  = UserDefaults.standard
     
     init() {
@@ -26,10 +25,6 @@ class ViewRouter: ObservableObject {
         if userDefault.bool(forKey: UserDefaultKey.isUserLoggedIn.rawValue) == true{
             initialPage = AnyView(HomePage())
         }
-        
-    }
-    
-    func changeToHome(_ binder: Published<Bool>){
         
     }
     

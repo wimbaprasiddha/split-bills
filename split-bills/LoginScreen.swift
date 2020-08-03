@@ -36,7 +36,7 @@ struct LoginScreen: View {
         NavigationView {
             VStack {
                 
-                NavigationLink(destination: Text("register").environmentObject(viewRouter), isActive: $factory.pushToRegister) {
+                NavigationLink(destination: RegisterAccount().environmentObject(viewRouter), isActive: $factory.pushToRegister) {
                     EmptyView()
                 }
                 
@@ -63,6 +63,7 @@ struct LoginScreen: View {
                         self.factory.pushToRegister.toggle()
                     }) {
                         Register()
+                            .environmentObject(self.viewRouter)
                     }
                     
                 }
@@ -113,22 +114,6 @@ struct LoginScreen: View {
         }
         
     }
-    
-    struct ActivityIndicator: UIViewRepresentable {
-        @Binding var isAnimating: Bool
-        let style: UIActivityIndicatorView.Style
-
-        func makeUIView(context: UIViewRepresentableContext<ActivityIndicator>) -> UIActivityIndicatorView {
-            let ai = UIActivityIndicatorView(style: style)
-            ai.color = .white
-            return ai
-        }
-
-        func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicator>) {
-            isAnimating ? uiView.startAnimating() : uiView.stopAnimating()
-        }
-    }
-    
     
     
   
