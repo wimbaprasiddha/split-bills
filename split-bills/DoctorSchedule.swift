@@ -21,35 +21,28 @@ struct DoctorSchedule: View {
     }
     
     var body: some View {
-
+        
         //        NavigationView{
         VStack{
             ZStack {
                 Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1621628853))
                     .edgesIgnoringSafeArea(.vertical)
                 
-                List(doctors) { doctor in
-                    listDoctor(imageDoctor: "person", nameDoctor: doctor.name, currentQueue: "\(doctor.queueNumber)", schedule: doctor.schedule)
+                
+                List(doctors, id: \.id) { doctor in
+                    NavigationLink(destination: Summary(doctor: doctor)) {
+                        listDoctor(imageDoctor: "person", nameDoctor: doctor.name, currentQueue: "\(doctor.queueNumber)", schedule: doctor.schedule)
+                    }
+                    
                 }
             }
             .navigationBarTitle(Text(poly.name), displayMode: .inline)
             .onAppear {
                 self.fetchDoctors()
                 UITableView.appearance().separatorStyle = .none
-
-        ZStack {
-            Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1621628853))
-            .edgesIgnoringSafeArea(.vertical)
-            ScrollView(.vertical, showsIndicators: false) {
-            VStack{
-                ForEach(0..<25,id: \.self){ _ in
-            listDoctor(imageDoctor: "person", nameDoctor: "Dr. Ahmad", currentQueue: "20", schedule: "")
-
             }
-            }
+            
         }
-        
-        
     }
     
     
@@ -61,17 +54,17 @@ struct DoctorSchedule: View {
                     print("\(err)")
                     return
                 }
-                
+                var doctors: [DoctorModel] = []
                 snapshot?.documents.forEach({ (item) in
                     let data = item.data()
-                    print(item.data())
-                    self.doctors.append(DoctorModel(
+                    doctors.append(DoctorModel(
                         name: data["name"] as! String,
                         schedule: data["schedule"] as! String,
                         queueNumber: data["queueNumber"] as! Int,
                         polyID: data["polyID"] as! Int,
                         polyName: data["polyName"] as! String))
                 })
+                self.doctors = doctors
         }
     }
 }
@@ -146,3 +139,9 @@ struct listDoctor: View {
 ////        DoctorSchedule(poly: "Poly a")
 //    }
 //}
+
+struct DoctorSchedule_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+    }
+}

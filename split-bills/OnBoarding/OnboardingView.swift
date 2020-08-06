@@ -74,7 +74,7 @@ struct OnboardingView: View {
     }
     
     private func moveToLoginPage(){
-        viewRouter.initialPage = AnyView(LoginScreen())
+        viewRouter.initialPage = AnyView(LoginScreen().environmentObject(viewRouter))
         userDefault.setValue(true, forKey: UserDefaultKey.onLoginPage.rawValue)
     }
 }

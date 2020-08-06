@@ -21,6 +21,7 @@ struct RegisterAccount: View {
     @EnvironmentObject var viewRouter: ViewRouter
     @ObservedObject var factory: RegisterAccountFactory = RegisterAccountFactory()
     
+    @State var toRegisterData:Bool = false
     @State var showAlert: Bool = false
     @State var alert: Alert?
     @State var isLoading: Bool = false
@@ -29,6 +30,13 @@ struct RegisterAccount: View {
     
     var body: some View {
         VStack{
+            
+            
+            NavigationLink(destination: RegisterData(email: factory.newEmail), isActive: $toRegisterData) {
+                EmptyView()
+            }
+            
+            
           Image(image)
             .padding()
             Text("Register Akun Baru")
@@ -61,6 +69,7 @@ struct RegisterAccount: View {
                 
             }
             
+        .environmentObject(viewRouter)
         }.alert(isPresented: $showAlert) { () -> Alert in
             alert!
         }
@@ -79,9 +88,9 @@ struct RegisterAccount: View {
                 return
             }
             
-            self.viewRouter.initialPage = AnyView(HomePage().environmentObject(self.viewRouter))
             
-            
+            self.toRegisterData = true
+//            self.viewRouter.initialPage = AnyView(HomePage().environmentObject(self.viewRouter))
         })
     }
     
