@@ -140,6 +140,7 @@ struct HomePage: View {
             try Auth.auth().signOut()
             isLoggoutTapped = false
             userDefault.setValue(false, forKey: UserDefaultKey.isUserLoggedIn.rawValue)
+            userDefault.setValue(nil, forKey: UserDefaultKey.userID.rawValue)
             viewRouter.initialPage = AnyView(LoginScreen().environmentObject(viewRouter))
         }catch (let err){
             print(err.localizedDescription)

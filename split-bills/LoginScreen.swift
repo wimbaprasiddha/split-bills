@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 import FirebaseAuth
+import FirebaseFirestore
 
 class LoginScreenFactory: ObservableObject{
     
@@ -16,7 +17,6 @@ class LoginScreenFactory: ObservableObject{
     
     @Published var email = ""
     @Published var pass = ""
-    @Published var pushToRegister: Bool = false
     @Published var showAlert: Bool = false
     var alertTitle: (String, String) = ("failed to login", "error login")
     
@@ -27,6 +27,7 @@ struct LoginScreen: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     @ObservedObject var factory = LoginScreenFactory()
+    @State var pushToRegister = false
     @State var isLoading: Bool = false
     private var userDefaults = UserDefaults.standard
     let image = "Login"
@@ -36,7 +37,7 @@ struct LoginScreen: View {
         NavigationView {
             VStack {
                 
-                NavigationLink(destination: RegisterAccount().environmentObject(viewRouter), isActive: $factory.pushToRegister) {
+                NavigationLink(destination: RegisterAccount().environmentObject(viewRouter), isActive: $pushToRegister) {
                     EmptyView()
                 }
                 
@@ -60,7 +61,7 @@ struct LoginScreen: View {
                     Text("Belum punya akun?")
                     
                     Button(action: {
-                        self.factory.pushToRegister.toggle()
+                        self.pushToRegister.toggle()
                     }) {
                         Register()
                             .environmentObject(self.viewRouter)
@@ -102,21 +103,50 @@ struct LoginScreen: View {
             self.isLoading = false
             
             if let err = err{
-                self.factory.alertTitle = ("failed to login", "\(err.localizedDescription)")
+                self.factory.alertTitle = ("Gagal Masuk", "\(err.localizedDescription)")
                 self.factory.showAlert.toggle()
                 return
             }
             
-            
-            self.viewRouter.initialPage = AnyView(HomePage().environmentObject(self.viewRouter))
-            self.userDefaults.setValue(true, forKey: UserDefaultKey.isUserLoggedIn.rawValue)
-            
+            self.requestCheckUser()
         }
         
     }
     
     
-  
+    private func requestCheckUser() {
+        isLoading = true
+        let userID = "IOS-\(factory.email)"
+        
+        Firestore.firestore().collection("user").document(userID)
+            .getDocument { (snapshot, err) in
+                self.isLoading = false
+                if let err = err{
+                    print(err.localizedDescription)
+                    self.factory.alertTitle = ("Gagal Masuk", "Daftar terlebih dahulu")
+                    self.factory.showAlert = true
+                    return
+                }
+                
+                
+                if snapshot?.data() != nil {
+                    self.userDefaults.setValue(true, forKey: UserDefaultKey.isUserLoggedIn.rawValue)
+                    self.userDefaults.setValue(userID, forKey: UserDefaultKey.userID.rawValue)
+                    
+                    self.viewRouter.initialPage = AnyView(HomePage().environmentObject(self.viewRouter))
+                }else{
+                    self.factory.alertTitle = ("Gagal Masuk", "Daftar terlebih dahulu")
+                    self.factory.showAlert = true
+                }
+                
+                
+                
+        }
+        
+    }
+    
+    
+    
     
     struct LoginForm: View {
         
