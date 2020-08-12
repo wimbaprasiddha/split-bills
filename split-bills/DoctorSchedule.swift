@@ -64,7 +64,28 @@ struct DoctorSchedule: View {
                         polyID: data["polyID"] as! Int,
                         polyName: data["polyName"] as! String))
                 })
-                self.doctors = doctors
+                
+
+                
+                
+            
+                doctors.forEach { (doctor) in
+                    Firestore.firestore().collection("patient").document(doctor.name).getDocument { (snapshot, err) in
+                        
+                        if let err = err{
+                            fatalError(err.localizedDescription)
+                        }
+                        let curentpatient = snapshot!.data()!["patients"] as! [String]
+                        var newDoctor = doctor
+                        newDoctor.queueNumber = curentpatient.count
+                        
+                        self.doctors.removeAll(where: {$0.name == doctor.name})
+                        self.doctors.append(newDoctor)
+                    }
+                    
+                }
+                    
+//                self.doctors = doctors
         }
     }
 }
