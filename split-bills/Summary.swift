@@ -102,12 +102,36 @@ struct Summary: View {
     // TODO: - Send request to backend, this is just a timer
     private func requestQueue(){
         isLoading = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+    
+        
+        let userID = UserDefaults.standard.value(forKey: UserDefaultKey.userID.rawValue) as! String
+        
+        
+        // get current patiens
+        Firestore.firestore().collection("patient").document(doctor.name).getDocument { (snapshot, err) in
+                
+                if let err = err{
+                    print(err.localizedDescription)
+                    return
+                }
+            
+            var curentPatient = snapshot!.data()?["patients"] as! [String]
+            curentPatient.append("\(userID)+\(self.patienName)")
+            
+            
+            // update patient
+            Firestore.firestore().collection("patient").document(self.doctor.name).updateData([
+                "patients": curentPatient
+            ])
             self.isLoading = false
             self.mode.wrappedValue.dismiss()
             self.mode.wrappedValue.dismiss()
+
         }
     }
+    
+    
+    
     
     private func requestPatientData(){
         
