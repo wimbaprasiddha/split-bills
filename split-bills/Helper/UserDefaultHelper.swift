@@ -12,4 +12,5 @@ enum UserDefaultKey: String{
     case onLoginPage = "onLoginPage"
     case isUserLoggedIn = "useLoggedIn"
     case userID = "userIDOnLogin"
+    case doctorName = "doctorName"
 }

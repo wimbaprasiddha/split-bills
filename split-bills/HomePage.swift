@@ -8,6 +8,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import FirebaseFirestore
 
 struct HomePage: View {
     
@@ -17,7 +18,7 @@ struct HomePage: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     @State var open = false
-    @State var status = false
+    
     
     @State var isLoggoutTapped: Bool = false
     @State var isProfileTapped: Bool = false
@@ -27,6 +28,14 @@ struct HomePage: View {
     @State var isPolySelected = false
     @State var polySelected: PolyModel = PolyModel(name: "", image: "", id: 0)
     @State var navBarIsHidden: Bool = true
+    
+    
+    // Status queue
+    @State var status = false
+    @State var patientQueue = "0"
+    @State var startTime = ""
+    @State var endTime = ""
+    
     
     let image =  "Home"
     private let userDefault = UserDefaults.standard
@@ -97,7 +106,7 @@ struct HomePage: View {
                         
                         Search().isHidden(true, remove: true)
                         
-                        StatusQueue().isHidden(status)
+                        StatusQueue(patientQueue: $patientQueue, startTime: $startTime, endTime: $endTime).isHidden(status)
                         
                         Poliklinik(selectedPoly: $polySelected.didSet(execute: { (value) in
                             self.navBarIsHidden = false
@@ -147,6 +156,7 @@ struct HomePage: View {
             }
             .onAppear {
                 self.navBarIsHidden = true
+                self.requestListPatient()
             }
         }.environmentObject(viewRouter)
     }
@@ -162,6 +172,43 @@ struct HomePage: View {
         }catch (let err){
             print(err.localizedDescription)
             isLoggoutTapped = false
+        }
+        
+    }
+    
+    
+    
+    private func requestListPatient(){
+        if let doctorName = UserDefaults.standard.value(forKey: UserDefaultKey.doctorName.rawValue) as? String,
+            let userID = UserDefaults.standard.value(forKey: UserDefaultKey.userID.rawValue) as? String{
+            
+            Firestore.firestore().collection("patient").document(doctorName).getDocument { (snapshot, err) in
+                
+                if let err = err{
+                    print(err.localizedDescription)
+                    return
+                }
+                
+                let curentPatient = snapshot!.data()?["patients"] as! [String]
+                
+                let leftQueue = curentPatient.firstIndex{
+                    $0.slice(from: "id:", to: "+") == userID} ?? 0; self.status = true
+                
+                self.status = false
+                
+                self.patientQueue = "\(leftQueue + 1)"
+                
+                let calendar = Calendar.current
+                let date = calendar.date(byAdding: .minute, value: 15 * leftQueue + 1, to: Date())
+                let endTime = calendar.date(byAdding: .minute, value: (15 * leftQueue + 1) + 30, to: Date())
+                let formatter = DateFormatter()
+                formatter.dateFormat = "HH:mm"
+                self.startTime = formatter.string(from: date!)
+                self.endTime = formatter.string(from: endTime!)
+                
+                
+                
+            }
         }
         
     }
@@ -215,9 +262,9 @@ struct HomePage: View {
     
     struct StatusQueue: View {
         
-        @State var patientQueue = 0
-        @State var startTime = "00.00"
-        @State var endTime = "00.00"
+        @Binding var patientQueue: String
+        @Binding var startTime: String
+        @Binding var endTime: String
         
         var body: some View {
             VStack{

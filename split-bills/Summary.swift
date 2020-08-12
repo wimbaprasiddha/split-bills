@@ -21,6 +21,8 @@ struct Summary: View {
     @State var isLoading = false
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     
+    var notificaiton = PushNotificationService()
+    var networking = AlamofireNetworkingService()
     var doctor: DoctorModel
     
 //    private var userDefault = UserDefaults.standard
@@ -116,18 +118,30 @@ struct Summary: View {
                 }
             
             var curentPatient = snapshot!.data()?["patients"] as! [String]
-            curentPatient.append("\(userID)+\(self.patienName)")
+            curentPatient.append("id:\(userID)+name:\(self.patienName)+no:\(curentPatient.count)+")
             
             
             // update patient
             Firestore.firestore().collection("patient").document(self.doctor.name).updateData([
                 "patients": curentPatient
             ])
-            self.isLoading = false
-            self.mode.wrappedValue.dismiss()
-            self.mode.wrappedValue.dismiss()
-
+            
+            
+            self.notificaiton.sendPushNotification(
+                title: "Antrian baru di \(self.polyName)",
+                body: "dengan dokter: \(self.doctorName)",
+                topics: .appAdmin)
+            UserDefaults.standard.setValue(self.doctorName, forKey: UserDefaultKey.doctorName.rawValue)
+            self.toHome()
+            
+            
         }
+        
+    }
+    
+    private func toHome(){
+        self.mode.wrappedValue.dismiss()
+        self.mode.wrappedValue.dismiss()
     }
     
     
@@ -298,12 +312,12 @@ struct ambilAntrian: View {
     }
 }
 
-//
-struct Summary_Previews: PreviewProvider {
-    static var previews: some View {
-        Summary(doctor: DoctorModel(id: UUID(), name: "", schedule: "", queueNumber: 2, polyID: 0, polyName: ""))
-    }
-}
+////
+//struct Summary_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Summary(doctor: DoctorModel(id: UUID(), name: "", schedule: "", queueNumber: 2, polyID: 0, polyName: ""))
+//    }
+//}
 
 //
 //struct Summary_Previews: PreviewProvider {
