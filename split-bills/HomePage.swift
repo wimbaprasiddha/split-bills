@@ -17,6 +17,7 @@ struct HomePage: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     @State var open = false
+    @State var status = false
     
     @State var isLoggoutTapped: Bool = false
     @State var isProfileTapped: Bool = false
@@ -93,7 +94,10 @@ struct HomePage: View {
                         
                         Greetings()
                         
-                        Search()
+                        
+                        Search().isHidden(true, remove: true)
+                        
+                        StatusQueue().isHidden(status)
                         
                         Poliklinik(selectedPoly: $polySelected.didSet(execute: { (value) in
                             self.navBarIsHidden = false
@@ -201,9 +205,49 @@ struct HomePage: View {
                     .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
                 TextField("Cari Poliklinik atau dokter", text: $searchSomething)
             }
-            .frame(width: 320, height: 25)
+            .frame(width: 320, height: 18)
             .padding()
             .background(Color.init(#colorLiteral(red: 0.9529411765, green: 0.9568627451, blue: 0.9764705882, alpha: 1)))
+            .cornerRadius(10)
+            .padding()
+        }
+    }
+    
+    struct StatusQueue: View {
+        
+        @State var patientQueue = 0
+        @State var startTime = "00.00"
+        @State var endTime = "00.00"
+        
+        var body: some View {
+            VStack{
+                HStack{
+                    Text("Sisa Antrian")
+                        .font(.system(size: 16))
+                        .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+                        
+                    Spacer()
+                    Text("\(patientQueue) pasien")
+                        .font(.system(size: 16))
+                        .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+                       
+                }  .padding(.horizontal, 12)
+                    .padding(.top, 8)
+                HStack{
+                    Text("Estimasi giliran dipanggil")
+                        .font(.system(size: 14))
+                        .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
+                    Spacer()
+                    Text("\(startTime) - \(endTime)")
+                        .font(.system(size: 14))
+                    .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
+                } .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+    
+            }
+            .frame(width: 320, height: 60)
+            .padding()
+            .background(Color.init(#colorLiteral(red: 0.9294117647, green: 0.9490196078, blue: 0.9803921569, alpha: 0.4)))
             .cornerRadius(10)
             .padding()
         }

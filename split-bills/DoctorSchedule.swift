@@ -23,10 +23,10 @@ struct DoctorSchedule: View {
     var body: some View {
         
         //        NavigationView{
+        ZStack {
+                      Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1621628853))
+                          .edgesIgnoringSafeArea(.vertical)
         VStack{
-            ZStack {
-                Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1621628853))
-                    .edgesIgnoringSafeArea(.vertical)
                 
                 
                 List(doctors, id: \.id) { doctor in
@@ -35,7 +35,6 @@ struct DoctorSchedule: View {
                     }
                     
                 }
-            }
             .navigationBarTitle(Text(poly.name), displayMode: .inline)
             .onAppear {
                 self.fetchDoctors()
@@ -43,6 +42,7 @@ struct DoctorSchedule: View {
             }
             
         }
+    }
     }
     
     
@@ -148,10 +148,9 @@ struct listDoctor: View {
             .padding()
             .background(Color.init(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
             .cornerRadius(15)
-            .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1853799229)), radius: 8, x: 0, y: 0)
+            .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.3344595462)), radius: 8, x: 0, y: 0)
             
         }
-        
     }
 }
 
