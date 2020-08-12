@@ -106,7 +106,7 @@ struct HomePage: View {
                         
                         Search().isHidden(true, remove: true)
                         
-                        StatusQueue(patientQueue: $patientQueue, startTime: $startTime, endTime: $endTime).isHidden(status)
+                        StatusQueue(patientQueue: $patientQueue, startTime: $startTime, endTime: $endTime).isHidden(status, remove:  true)
                         
                         Poliklinik(selectedPoly: $polySelected.didSet(execute: { (value) in
                             self.navBarIsHidden = false
@@ -192,19 +192,24 @@ struct HomePage: View {
                 let curentPatient = snapshot!.data()?["patients"] as! [String]
                 
                 let leftQueue = curentPatient.firstIndex{
-                    $0.slice(from: "id:", to: "+") == userID} ?? 0; self.status = true
+                    $0.slice(from: "id:", to: "+") == userID} ?? 0
                 
-                self.status = false
-                
-                self.patientQueue = "\(leftQueue + 1)"
-                
-                let calendar = Calendar.current
-                let date = calendar.date(byAdding: .minute, value: 15 * leftQueue + 1, to: Date())
-                let endTime = calendar.date(byAdding: .minute, value: (15 * leftQueue + 1) + 30, to: Date())
-                let formatter = DateFormatter()
-                formatter.dateFormat = "HH:mm"
-                self.startTime = formatter.string(from: date!)
-                self.endTime = formatter.string(from: endTime!)
+                if curentPatient.count == 0{
+                    self.status = true
+                }else{
+                    self.status = false
+                    
+                    self.patientQueue = "\(leftQueue + 1)"
+                    
+                    let calendar = Calendar.current
+                    let date = calendar.date(byAdding: .minute, value: 15 * leftQueue + 1, to: Date())
+                    let endTime = calendar.date(byAdding: .minute, value: (15 * leftQueue + 1) + 30, to: Date())
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "HH:mm"
+                    self.startTime = formatter.string(from: date!)
+                    self.endTime = formatter.string(from: endTime!)
+                    
+                }
                 
                 
                 
