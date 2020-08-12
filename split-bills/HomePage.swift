@@ -30,17 +30,30 @@ struct HomePage: View {
     let image =  "Home"
     private let userDefault = UserDefaults.standard
     private let polies = [
-        PolyModel(name: "Poly A", image: "gear", id: 0),
-        PolyModel(name: "Poly B", image: "gear", id: 1),
-        PolyModel(name: "Poly C", image: "gear", id: 2),
-        PolyModel(name: "Poly D", image: "gear", id: 3),
-        PolyModel(name: "Poly E", image: "gear", id: 4),
-        PolyModel(name: "Poly F", image: "gear", id: 5),
-        PolyModel(name: "Poly G", image: "gear", id: 6),
-        PolyModel(name: "Poly H", image: "gear", id: 7),
-        PolyModel(name: "Poly I", image: "gear", id: 8),
-        PolyModel(name: "Poly J", image: "gear", id: 9),
-        PolyModel(name: "Poly K", image: "gear", id: 10)
+        PolyModel(name: "Anak", image: "anak", id: 0),
+        PolyModel(name: "Gigi Umum", image: "gigi umum", id: 1),
+        PolyModel(name: "THT", image: "THT", id: 2),
+        PolyModel(name: "Mata", image: "mata", id: 3),
+        PolyModel(name: "Kandungan", image: "kandungan", id: 4),
+        PolyModel(name: "Lihat Lainnya", image: "more", id: 5),
+        PolyModel(name: "Anak", image: "anak", id: 0),
+        PolyModel(name: "Gigi Umum", image: "gigi umum", id: 1),
+        PolyModel(name: "THT", image: "THT", id: 2),
+        PolyModel(name: "Mata", image: "mata", id: 3),
+        PolyModel(name: "Kandungan", image: "kandungan", id: 4),
+        PolyModel(name: "Kulit & Kelamin", image: "kulit&kelamin", id: 6),
+        PolyModel(name: "Urology", image: "urology", id: 7),
+        PolyModel(name: "Anesthesi", image: "anesthesi", id: 8),
+        PolyModel(name: "Gigi Spesialis", image: "gigi spesialis", id: 9),
+        PolyModel(name: "Jiwa", image: "jiwa", id: 10),
+        PolyModel(name: "Fisioterapi", image: "fisioterapi", id: 11),
+        PolyModel(name: "Radiologi", image: "radiologi", id: 12),
+        PolyModel(name: "Jantung", image: "jantung", id: 13),
+        PolyModel(name: "Paru-Paru", image: "paru-paru", id: 14),
+        PolyModel(name: "Orthopedi", image: "orthopedi", id: 15),
+        PolyModel(name: "Bedah", image: "bedah", id: 16),
+        PolyModel(name: "Penyakit Dalam", image: "penyakit dalam", id: 17),
+        PolyModel(name: "Syaraf", image: "syaraf", id: 18)
     ]
     
     var body: some View {
@@ -350,15 +363,28 @@ struct HomePage: View {
         var body: some View {
             HStack{
                 if more.isEmpty == false {
-                    Button(action: {self.show.toggle()}) {
+                    
+                ZStack{
+                    VStack{
+                        Image(imagePoli)
+                                
                         Text(titlePoli)
-                            .foregroundColor(.black)
-                            .frame(width: 80, height: 80)
-                            .padding()
-                            .background(Color.init(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-                            .cornerRadius(15)
-                            .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
+                         .frame(width: 100, height: 20)
+                         .font(.system(size: 14))
+                         .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
                     }
+                    .frame(width: 80, height: 80)
+                    .padding()
+                    .background(Color.init(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                    .cornerRadius(15)
+                    .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
+                    
+                    Button(action: {self.show.toggle()}) {
+                        Text("")
+                        .frame(width: 80, height: 80)
+                    }
+                }
+                    
                     .sheet(isPresented: $show){
                         DetailPoli(
                             selectedPoly: self.$selectedPoly.didSet(execute: { (_) in
@@ -370,17 +396,29 @@ struct HomePage: View {
                     }
                 }
                 else {
+                    ZStack{
+                    VStack{
+                    Image(imagePoli)
+                            
+                    Text(titlePoli)
+                     .frame(width: 100, height: 20)
+                     .font(.system(size: 14))
+                     .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+                    
+                        }
+                        .frame(width: 80, height: 80)
+                        .padding()
+                        .background(Color.init(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
+                        .cornerRadius(15)
+                        .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
+                        
                     Button(action: {
                         self.selectedPoly = self.poly
                     }){
-                        Text(titlePoli)
-                            .foregroundColor(.black)
-                            .frame(width: 80, height: 80)
-                            .padding()
-                            .background(Color.init(#colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)))
-                            .cornerRadius(15)
-                            .shadow(color: Color.init(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.2607662671)), radius: 8, x: 0, y: 6)
+                        Text("")
+                        .frame(width: 80, height: 80)
                     }
+                }
                 }
                 Spacer()
             }
