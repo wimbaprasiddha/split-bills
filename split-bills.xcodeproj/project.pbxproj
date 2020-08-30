@@ -42,6 +42,7 @@
 		BE8A3E4324DF2E7A0086666B /* NotifModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8A3E4224DF2E7A0086666B /* NotifModel.swift */; };
 		BE8D570F24E3EA950090A926 /* KeyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8D570E24E3EA950090A926 /* KeyHelper.swift */; };
 		BEC811DA24CC65CC00F132B6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEC811D924CC65CC00F132B6 /* GoogleService-Info.plist */; };
+		BEE6110D24FBEFC900DFD3A7 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE6110C24FBEFC900DFD3A7 /* SearchBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		BE8A3E4224DF2E7A0086666B /* NotifModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifModel.swift; sourceTree = "<group>"; };
 		BE8D570E24E3EA950090A926 /* KeyHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyHelper.swift; sourceTree = "<group>"; };
 		BEC811D924CC65CC00F132B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BEE6110C24FBEFC900DFD3A7 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		F0763C33F4053DEDB782210E /* Pods_split_bills.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_split_bills.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -203,6 +205,7 @@
 				BE8A3E4024DF2ABE0086666B /* NetworkService.swift */,
 				BE8D570E24E3EA950090A926 /* KeyHelper.swift */,
 				BE1D859024E46AD6003BE291 /* PushNotificationService.swift */,
+				BEE6110C24FBEFC900DFD3A7 /* SearchBar.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				BE8A3E4124DF2ABE0086666B /* NetworkService.swift in Sources */,
 				1321A3A924CAEB180085210C /* HomePage.swift in Sources */,
 				13A833A124C7F847002EFCFF /* AppDelegate.swift in Sources */,
+				BEE6110D24FBEFC900DFD3A7 /* SearchBar.swift in Sources */,
 				13A833B924C8B6B5002EFCFF /* PageViewController.swift in Sources */,
 				130E291A24CCDD44005C578C /* DoctorSchedule.swift in Sources */,
 				BE241F4524CDCBE2008CCFC7 /* ActifityIndicatorView.swift in Sources */,
