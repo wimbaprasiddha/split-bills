@@ -155,6 +155,11 @@ struct HomePage: View {
                 self.navBarIsHidden = false
             }
             .onAppear {
+//                if self.patientQueue == "0"{
+//                    self.status = true
+//                }else{
+//                    self.status = false
+//                }
                 self.navBarIsHidden = true
                 self.requestListPatient()
             }

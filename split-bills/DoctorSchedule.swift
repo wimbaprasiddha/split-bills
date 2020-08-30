@@ -13,7 +13,10 @@ struct DoctorSchedule: View {
     
     @EnvironmentObject var viewRouter: ViewRouter
     
+    
+    @State var doctorsToView: [DoctorModel] = []
     @State var doctors: [DoctorModel] = []
+    @State var searchText: String = ""
     private var poly: PolyModel
     
     init(poly: PolyModel) {
@@ -24,25 +27,27 @@ struct DoctorSchedule: View {
         
         //        NavigationView{
         ZStack {
-                      Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1621628853))
-                          .edgesIgnoringSafeArea(.vertical)
-        VStack{
+            Color(#colorLiteral(red: 0.8, green: 0.8392156863, blue: 0.9254901961, alpha: 0.1621628853))
+                .edgesIgnoringSafeArea(.vertical)
+            VStack{
+                SearchBar(text: $searchText.didSet(execute: { (query) in
+                    self.filterDoctor(with: query)
+                }))
                 
-                
-                List(doctors, id: \.id) { doctor in
+                List(doctorsToView, id: \.id) { doctor in
+                    
                     NavigationLink(destination: Summary(doctor: doctor)) {
                         listDoctor(imageDoctor: "person", nameDoctor: doctor.name, currentQueue: "\(doctor.queueNumber)", schedule: doctor.schedule)
                     }
-                    
                 }
-            .navigationBarTitle(Text(poly.name), displayMode: .inline)
-            .onAppear {
-                self.fetchDoctors()
-                UITableView.appearance().separatorStyle = .none
+                .navigationBarTitle(Text(poly.name), displayMode: .inline)
+                .onAppear{
+                    self.fetchDoctors()
+                    UITableView.appearance().separatorStyle = .none
+                }
+                
             }
-            
         }
-    }
     }
     
     
@@ -65,10 +70,7 @@ struct DoctorSchedule: View {
                         polyName: data["polyName"] as! String))
                 })
                 
-
                 
-                
-            
                 doctors.forEach { (doctor) in
                     Firestore.firestore().collection("patient").document(doctor.name).getDocument { (snapshot, err) in
                         
@@ -81,11 +83,20 @@ struct DoctorSchedule: View {
                         
                         self.doctors.removeAll(where: {$0.name == doctor.name})
                         self.doctors.append(newDoctor)
+                        self.filterDoctor(with: "")
                     }
                     
                 }
-                    
-//                self.doctors = doctors
+                
+                //                self.doctors = doctors
+        }
+    }
+    
+    private func filterDoctor(with query: String){
+        if query == ""{
+            self.doctorsToView = doctors
+        }else{
+            self.doctorsToView = doctors.filter({$0.name.lowercased().contains(query.lowercased())})
         }
     }
 }
@@ -154,14 +165,14 @@ struct listDoctor: View {
     }
 }
 
-//struct DoctorSchedule_Previews: PreviewProvider {
-//    static var previews: some View {
-////        DoctorSchedule(poly: "Poly a")
-//    }
-//}
-
 struct DoctorSchedule_Previews: PreviewProvider {
     static var previews: some View {
-        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+        DoctorSchedule(poly: PolyModel(name: "Dokter gigi", image: "gear", id: 0))
     }
 }
+
+//struct DoctorSchedule_Previews: PreviewProvider {
+//    static var previews: some View {
+//        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+//    }
+//}
