@@ -28,6 +28,8 @@ struct HomePage: View {
     @State var isPolySelected = false
     @State var polySelected: PolyModel = PolyModel(name: "", image: "", id: 0)
     @State var navBarIsHidden: Bool = true
+    @State var statusQueueClose: Bool = false
+    @State var alertShow: Bool = false
     
     
     // Status queue
@@ -106,7 +108,9 @@ struct HomePage: View {
                         
                         Search().isHidden(true, remove: true)
                         
-                        StatusQueue(patientQueue: $patientQueue, startTime: $startTime, endTime: $endTime).isHidden(status, remove:  true)
+                        StatusQueue(patientQueue: $patientQueue, startTime: $startTime, endTime: $endTime, onCloseButton: $statusQueueClose.didSet(execute: { (_) in
+                            self.alertShow = true
+                        })).isHidden(status, remove:  true)
                         
                         Poliklinik(selectedPoly: $polySelected.didSet(execute: { (value) in
                             self.navBarIsHidden = false
@@ -149,17 +153,25 @@ struct HomePage: View {
                     }
                 }
             }
+            .alert(isPresented: $alertShow, content: { () -> Alert in
+                Alert(
+                title: Text("Apakah anda sudah diperiksa"),
+                message: nil,
+                primaryButton: .cancel(Text("Belum"), action: {
+                    self.status = false
+                    self.alertShow = false
+                }),
+                secondaryButton: .default(Text("Sudah"), action: {
+                    self.status = true
+                    self.alertShow = false
+                })
+            )})
             .navigationBarHidden(navBarIsHidden)
             .navigationBarTitle(Text(""))
             .onDisappear {
                 self.navBarIsHidden = false
             }
             .onAppear {
-//                if self.patientQueue == "0"{
-//                    self.status = true
-//                }else{
-//                    self.status = false
-//                }
                 self.navBarIsHidden = true
                 self.requestListPatient()
             }
@@ -200,7 +212,8 @@ struct HomePage: View {
                     $0.slice(from: "id:", to: "+") == userID} ?? 0
                 
                 if curentPatient.count == 0{
-                    self.status = true
+//                    self.status = true
+                    self.patientQueue = "Sekarang giliranmu"
                 }else{
                     self.status = false
                     
@@ -213,12 +226,13 @@ struct HomePage: View {
                     formatter.dateFormat = "HH:mm"
                     self.startTime = formatter.string(from: date!)
                     self.endTime = formatter.string(from: endTime!)
+                
                     
                 }
                 
-                
-                
             }
+        }else{
+            status = true
         }
         
     }
@@ -275,9 +289,20 @@ struct HomePage: View {
         @Binding var patientQueue: String
         @Binding var startTime: String
         @Binding var endTime: String
+        @Binding var onCloseButton: Bool
         
         var body: some View {
             VStack{
+                
+                HStack{
+                    Spacer()
+                    Button(action: {
+                        self.onCloseButton = true
+                    }) {
+                        Text("Close")
+                    }
+                }
+                
                 HStack{
                     Text("Sisa Antrian")
                         .font(.system(size: 16))
