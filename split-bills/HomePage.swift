@@ -106,7 +106,7 @@ struct HomePage: View {
                         Greetings()
                         
                         
-                        Search().isHidden(true, remove: true)
+                        Search().isHidden(false, remove: false)
                         
                         StatusQueue(patientQueue: $patientQueue, startTime: $startTime, endTime: $endTime, onCloseButton: $statusQueueClose.didSet(execute: { (_) in
                             self.alertShow = true
@@ -236,11 +236,7 @@ struct HomePage: View {
         }
         
     }
-    
-    
-    
-    
-    
+
     /*
      ================================
      Custom view builder
@@ -280,7 +276,7 @@ struct HomePage: View {
             .padding()
             .background(Color.init(#colorLiteral(red: 0.9529411765, green: 0.9568627451, blue: 0.9764705882, alpha: 1)))
             .cornerRadius(10)
-            .padding()
+//            .padding()
         }
     }
     
@@ -295,11 +291,12 @@ struct HomePage: View {
             VStack{
                 
                 HStack{
+                    Text("Status Antrian")
                     Spacer()
                     Button(action: {
                         self.onCloseButton = true
                     }) {
-                        Text("Close")
+                        Image(systemName: "xmark")
                     }
                 }
                 
@@ -336,7 +333,6 @@ struct HomePage: View {
     }
     
     
-    
     struct HomePage_Previews: PreviewProvider {
         static var previews: some View {
             HomePage()
@@ -364,9 +360,7 @@ struct HomePage: View {
                     
                     ListMenu(isTapped: $isLoggoutTapped, active: false, icon: "escape", text: "Log Out")
                         .padding(.vertical,20)
-                    
-                    
-                    
+     
                 }
                 .padding(.top, 30)
                 
@@ -554,14 +548,10 @@ struct HomePage: View {
     
     struct DetailPoli: View {
         
-        
         @Binding var selectedPoly: PolyModel
         @Binding var detail: Bool
         
         var polyReadyToDisplay: [[PolyModel]]
-        
-        
-        
         var body: some View {
             ScrollView (.vertical, showsIndicators: false) {
                 VStack{
@@ -586,9 +576,7 @@ struct HomePage: View {
                                     .padding()
                                 Spacer()
                             }
-                            
-                            
-                            
+ 
                         }.padding(.horizontal, 20)
                         
                     }.padding(.bottom, 20)
