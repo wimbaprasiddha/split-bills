@@ -37,7 +37,7 @@ struct DoctorSchedule: View {
                 List(doctorsToView, id: \.id) { doctor in
                     
                     NavigationLink(destination: Summary(doctor: doctor)) {
-                        listDoctor(imageDoctor: "person", nameDoctor: doctor.name, currentQueue: "\(doctor.queueNumber)", schedule: doctor.schedule)
+                        listDoctor(imageDoctor: "person", nameDoctor: doctor.name, currentQueue: "\(doctor.queueNumber)", schedule: doctor.schedule, polyName: doctor.polyName)
                     }
                 }
                 .navigationBarTitle(Text(poly.name), displayMode: .inline)
@@ -52,44 +52,95 @@ struct DoctorSchedule: View {
     
     
     private func fetchDoctors(){
-        Firestore.firestore().collection("doctor")
-            .whereField("polyID", isEqualTo: self.poly.id)
-            .getDocuments { (snapshot, err) in
-                if let err = err{
-                    print("\(err)")
-                    return
-                }
-                var doctors: [DoctorModel] = []
-                snapshot?.documents.forEach({ (item) in
-                    let data = item.data()
-                    doctors.append(DoctorModel(
-                        name: data["name"] as! String,
-                        schedule: data["schedule"] as! String,
-                        queueNumber: data["queueNumber"] as! Int,
-                        polyID: data["polyID"] as! Int,
-                        polyName: data["polyName"] as! String))
-                })
-                
-                
-                doctors.forEach { (doctor) in
-                    Firestore.firestore().collection("patient").document(doctor.name).getDocument { (snapshot, err) in
-                        
-                        if let err = err{
-                            fatalError(err.localizedDescription)
+        
+        if self.poly.name.isEmpty{
+            
+            Firestore.firestore().collection("doctor")
+                .getDocuments { (snapshot, err) in
+                    if let err = err{
+                        print("\(err)")
+                        return
+                    }
+                    var doctors: [DoctorModel] = []
+                    snapshot?.documents.forEach({ (item) in
+                        let data = item.data()
+                        doctors.append(DoctorModel(
+                            name: data["name"] as! String,
+                            schedule: data["schedule"] as! String,
+                            queueNumber: data["queueNumber"] as! Int,
+                            polyID: data["polyID"] as! Int,
+                            polyName: data["polyName"] as! String))
+                    })
+                    
+                    
+                    doctors.forEach { (doctor) in
+                        Firestore.firestore().collection("patient").document(doctor.name).getDocument { (snapshot, err) in
+                            
+                            if let err = err{
+                                fatalError(err.localizedDescription)
+                            }
+                            let curentpatient = snapshot!.data()!["patients"] as! [String]
+                            var newDoctor = doctor
+                            newDoctor.queueNumber = curentpatient.count
+                            
+                            self.doctors.removeAll(where: {$0.name == doctor.name})
+                            self.doctors.append(newDoctor)
+                            self.filterDoctor(with: "")
                         }
-                        let curentpatient = snapshot!.data()!["patients"] as! [String]
-                        var newDoctor = doctor
-                        newDoctor.queueNumber = curentpatient.count
                         
-                        self.doctors.removeAll(where: {$0.name == doctor.name})
-                        self.doctors.append(newDoctor)
-                        self.filterDoctor(with: "")
                     }
                     
-                }
-                
-                //                self.doctors = doctors
+                    //                self.doctors = doctors
+            }
+            
+            
+        }else{
+            
+            Firestore.firestore().collection("doctor")
+                .whereField("polyID", isEqualTo: self.poly.id)
+                .getDocuments { (snapshot, err) in
+                    if let err = err{
+                        print("\(err)")
+                        return
+                    }
+                    var doctors: [DoctorModel] = []
+                    snapshot?.documents.forEach({ (item) in
+                        let data = item.data()
+                        doctors.append(DoctorModel(
+                            name: data["name"] as! String,
+                            schedule: data["schedule"] as! String,
+                            queueNumber: data["queueNumber"] as! Int,
+                            polyID: data["polyID"] as! Int,
+                            polyName: data["polyName"] as! String))
+                    })
+                    
+                    
+                    doctors.forEach { (doctor) in
+                        Firestore.firestore().collection("patient").document(doctor.name).getDocument { (snapshot, err) in
+                            
+                            if let err = err{
+                                fatalError(err.localizedDescription)
+                            }
+                            let curentpatient = snapshot!.data()!["patients"] as! [String]
+                            var newDoctor = doctor
+                            newDoctor.queueNumber = curentpatient.count
+                            
+                            self.doctors.removeAll(where: {$0.name == doctor.name})
+                            self.doctors.append(newDoctor)
+                            self.filterDoctor(with: "")
+                        }
+                        
+                    }
+                    
+                    //                self.doctors = doctors
+            }
         }
+        
+        
+        
+        
+        
+        
     }
     
     private func filterDoctor(with query: String){
@@ -108,6 +159,7 @@ struct listDoctor: View {
     var nameDoctor = ""
     var currentQueue = ""
     var schedule = ""
+    var polyName = ""
     
     var body: some View {
         VStack {
@@ -127,7 +179,7 @@ struct listDoctor: View {
                                 .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
                                 .padding(.vertical, 4)
                                 .lineLimit(2)
-                            Text("Dokter Umum")
+                            Text(polyName)
                                 .font(.subheadline)
                                 .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
                             

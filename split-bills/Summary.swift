@@ -19,6 +19,7 @@ struct Summary: View {
     @State var queue = ""
     @State var patienName = ""
     @State var isLoading = false
+    @State var showAlert = false
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     
     var notificaiton = PushNotificationService()
@@ -73,7 +74,10 @@ struct Summary: View {
             ZStack{
                 
                 Button(action: {
-                    self.requestQueue()
+                    
+                    self.showAlert = true
+                    
+//                    self.requestQueue()
                 }) {
                     ambilAntrian()
                         .padding(.vertical, 25)
@@ -84,9 +88,7 @@ struct Summary: View {
             }
             
             
-            
-            
-            
+
         }
         
         
@@ -97,9 +99,19 @@ struct Summary: View {
         self.doctorSchedule = self.doctor.schedule
         self.queue = "\(self.doctor.queueNumber)"
         }
+        
+    .alert(isPresented: $showAlert) { () -> Alert in
+        Alert(
+            title: Text("Apakah data sudah benar?"),
+            message: Text("lorem ipsum"),
+            primaryButton: .default(Text("Iya"), action: {
+                self.requestQueue()
+                self.showAlert = false
+            }),
+            secondaryButton: .cancel())
+        }
     }
-    
-    
+
     
     // TODO: - Send request to backend, this is just a timer
     private func requestQueue(){
