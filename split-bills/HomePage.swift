@@ -30,6 +30,7 @@ struct HomePage: View {
     @State var navBarIsHidden: Bool = true
     @State var statusQueueClose: Bool = false
     @State var alertShow: Bool = false
+    @State var patientName: String = ""
     
     
     // Status queue
@@ -104,7 +105,7 @@ struct HomePage: View {
                             Image(image)
                         }
                         
-                        Greetings()
+                        Greetings(userName: $patientName)
                         
                         
                         Search().isHidden(false, remove: false)
@@ -180,6 +181,7 @@ struct HomePage: View {
             .onAppear {
                 self.navBarIsHidden = true
                 self.requestListPatient()
+                self.requestPatientData()
             }
         }.environmentObject(viewRouter)
     }
@@ -244,6 +246,36 @@ struct HomePage: View {
         }
         
     }
+    
+    
+    
+    
+    
+    
+    private func requestPatientData(){
+          
+          
+          let userID = UserDefaults.standard.value(forKey: UserDefaultKey.userID.rawValue) as! String
+          
+          Firestore.firestore().collection("user").document(userID)
+              .getDocument { (snapshot, err) in
+                  if let err = err{
+                      print(err.localizedDescription)
+                      return
+                  }
+                  
+                  if snapshot?.data() != nil {
+                      let patientName = snapshot?.data()?["name"] as! String
+                      self.patientName = patientName
+                  }else{
+                     print("GAGAL MENGAMBIL DATA PASIEN")
+                  }
+          }
+          
+          
+      }
+    
+    
 
     /*
      ================================
@@ -253,9 +285,12 @@ struct HomePage: View {
     
     
     struct Greetings: View {
+        
+        @Binding var userName: String
+        
         var body: some View {
             VStack{
-                Text("Hi Samantha")
+                Text("Hi \(userName)")
                     .font(.system(size: 40))
                     .bold()
                     .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
