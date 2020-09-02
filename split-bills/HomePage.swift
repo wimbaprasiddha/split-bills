@@ -37,6 +37,7 @@ struct HomePage: View {
     @State var patientQueue = "0"
     @State var startTime = ""
     @State var endTime = ""
+    @State var isHiddenStatusQueueCloseButton = true
     
     
     let image =  "Home"
@@ -107,10 +108,15 @@ struct HomePage: View {
                         
                         
                         Search().isHidden(false, remove: false)
+                            .onTapGesture {
+                                self.polySelected = PolyModel(name: "", image: "", id: 0)
+                                self.navBarIsHidden = false
+                                self.isPolySelected = true
+                        }
                         
                         StatusQueue(patientQueue: $patientQueue, startTime: $startTime, endTime: $endTime, onCloseButton: $statusQueueClose.didSet(execute: { (_) in
                             self.alertShow = true
-                        })).isHidden(status, remove:  true)
+                        }), isHiddenCloseButton: $isHiddenStatusQueueCloseButton).isHidden(status, remove:  true)
                         
                         Poliklinik(selectedPoly: $polySelected.didSet(execute: { (value) in
                             self.navBarIsHidden = false
@@ -214,9 +220,11 @@ struct HomePage: View {
                 if curentPatient.count == 0{
 //                    self.status = true
                     self.patientQueue = "Sekarang giliranmu"
+                    self.isHiddenStatusQueueCloseButton = false
+                    
                 }else{
                     self.status = false
-                    
+                    self.isHiddenStatusQueueCloseButton = true
                     self.patientQueue = "\(leftQueue + 1)"
                     
                     let calendar = Calendar.current
@@ -286,42 +294,50 @@ struct HomePage: View {
         @Binding var startTime: String
         @Binding var endTime: String
         @Binding var onCloseButton: Bool
+        @Binding var isHiddenCloseButton: Bool
         
         var body: some View {
             VStack{
                 
                 HStack{
-                    Text("Status Antrian")
+                    VStack{
+                        Text("Sekarang Giliranmu")
+                    }
                     Spacer()
                     Button(action: {
                         self.onCloseButton = true
                     }) {
                         Image(systemName: "xmark")
                     }
-                }
+                }.isHidden(isHiddenCloseButton, remove: true)
                 
-                HStack{
-                    Text("Sisa Antrian")
-                        .font(.system(size: 16))
-                        .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+                
+                VStack{
+                    HStack{
+                        Text("Sisa Antrian")
+                            .font(.system(size: 16))
+                            .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
                         
-                    Spacer()
-                    Text("\(patientQueue) pasien")
-                        .font(.system(size: 16))
-                        .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
-                       
-                }  .padding(.horizontal, 12)
-                    .padding(.top, 8)
-                HStack{
-                    Text("Estimasi giliran dipanggil")
-                        .font(.system(size: 14))
-                        .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
-                    Spacer()
-                    Text("\(startTime) - \(endTime)")
-                        .font(.system(size: 14))
-                    .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
-                } .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
+                        Spacer()
+                        Text("\(patientQueue) pasien")
+                            .font(.system(size: 16))
+                            .foregroundColor(Color.init(#colorLiteral(red: 0.1450980392, green: 0.1568627451, blue: 0.168627451, alpha: 1)))
+                        
+                    }  .padding(.horizontal, 12)
+                        .padding(.top, 8)
+                    HStack{
+                        Text("Estimasi giliran dipanggil")
+                            .font(.system(size: 14))
+                            .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
+                        Spacer()
+                        Text("\(startTime) - \(endTime)")
+                            .font(.system(size: 14))
+                            .foregroundColor(Color.init(#colorLiteral(red: 0.6274509804, green: 0.6431372549, blue: 0.6588235294, alpha: 1)))
+                    } .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                }.isHidden(!isHiddenCloseButton, remove: true)
+                
+                
     
             }
             .frame(width: 320, height: 60)
